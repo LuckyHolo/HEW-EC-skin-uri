@@ -1,0 +1,43 @@
+html,header,div,body,main,h1,h2,h3,p,img{
+    padding: 0;
+    margin: 0;
+    vertical-align: 0;
+}
+
+.header_warapper{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.header_contents_warapper{
+    width: 100%;
+    display: flex;
+}
+
+.header_contents ul{
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+}
+.header_contents li{
+    font-size: 20px;
+    list-style: none;
+}
+
+.header_contents_kinou{
+    width: 500px;
+    display: flex;
+    font-size: 50px;
+    justify-content: space-between;
+}
+
+.kensaku{
+    border: solid 2px #000;
+    border-radius: 50px;
+    width: 500px;
+}
+.kensaku a{
+    text-align: right;
+    text-decoration: none;
+    color: #000;
+}
