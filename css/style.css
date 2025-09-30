@@ -30,6 +30,9 @@ html,header,div,body,main,h1,h2,h3,p,img{
     font-size: 50px;
     justify-content: space-between;
 }
+.header_contents_kinou a{
+    color: #000;
+}
 
 .kensaku{
     border: solid 2px #000;
