@@ -3,6 +3,10 @@ html,header,div,body,main,h1,h2,h3,p,img{
     margin: 0;
     vertical-align: 0;
 }
+body{
+    background-color: #000;
+    color: #fff;
+}
 
 .header_warapper{
     margin: 0 auto;
@@ -12,35 +16,50 @@ html,header,div,body,main,h1,h2,h3,p,img{
 .header_contents_warapper{
     width: 100%;
     display: flex;
+    padding-top: 40px;
+    margin: 0 auto;
+}
+
+.header_contents{
+    background-color: #000;
+    margin: 0 auto;
 }
 
 .header_contents ul{
     width: 500px;
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
 }
 .header_contents li{
     font-size: 20px;
     list-style: none;
 }
+.header_contents a{
+    color: #fff;
+    text-decoration: none;
+}
 
 .header_contents_kinou{
-    width: 500px;
+    width: 700px;
     display: flex;
     font-size: 50px;
     justify-content: space-between;
+    margin: 0 auto;
 }
-.header_contents_kinou a{
-    color: #000;
+.header_contents_kinou i{
+    margin: 10px;
+    color: #fff;
 }
 
 .kensaku{
-    border: solid 2px #000;
+    border: solid 2px #fff;
     border-radius: 50px;
     width: 500px;
 }
-.kensaku a{
-    text-align: right;
-    text-decoration: none;
-    color: #000;
+
+.kensaku i{
+    margin-left: 300px;
+    padding: 10px;
+    font-size: 40px;
 }
