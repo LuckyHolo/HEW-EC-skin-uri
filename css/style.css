@@ -56,7 +56,6 @@ body{
 
 .header_contents ul{
     display: flex;
-    justify-content: space-between;
     margin-top: 20px;
 }
 .header_contents li{
