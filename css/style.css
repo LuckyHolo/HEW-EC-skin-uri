@@ -8,6 +8,7 @@ body{
     color: #fff;
 }
 
+
 .header_warapper{
     margin: 0 auto;
     text-align: center;
@@ -26,22 +27,25 @@ body{
 }
 
 .header_contents ul{
-    width: 500px;
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
 }
 .header_contents li{
-    font-size: 20px;
+    font-size: 30px;
     list-style: none;
+    padding: 10px;
 }
 .header_contents a{
     color: #fff;
     text-decoration: none;
 }
+.header_contents a:hover{
+    color: rgb(122, 0, 122);
+}
 
 .header_contents_kinou{
-    width: 700px;
+    width: 500px;
     display: flex;
     font-size: 50px;
     justify-content: space-between;
@@ -51,6 +55,9 @@ body{
     margin: 10px;
     color: #fff;
 }
+.header_contents_kinou i:hover{
+    color: rgb(122, 0, 122);
+}
 
 .kensaku{
     border: solid 2px #fff;
@@ -59,7 +66,5 @@ body{
 }
 
 .kensaku i{
-    margin-left: 300px;
-    padding: 10px;
     font-size: 40px;
 }
