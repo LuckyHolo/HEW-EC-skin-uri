@@ -28,17 +28,18 @@ body{
 }
 
 .header_title{
-    padding: 50px;
+    padding-top: 50px;
 }
 
 .header_title h2{
     font-family: "DotGothic16";
-    font-size: 30px;
+    font-size: 40px;
+    padding-bottom: 20px;
 }
 
 .header_title h1{
     font-family: "Press Start 2P";
-    font-size: 50px;
+    font-size: 80px;
 }
 
 .header_contents_warapper{
