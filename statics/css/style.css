@@ -107,4 +107,6 @@ body{
     display: flex;
 }
 
-.
+.game_images img{
+    size: 100px;
+}
