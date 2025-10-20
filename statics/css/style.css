@@ -57,11 +57,12 @@ body{
 .header_contents ul{
     display: flex;
     margin-top: 20px;
+    padding: 0;
 }
 .header_contents li{
     font-size: 30px;
     list-style: none;
-    padding: 20px;
+    padding-right: 20px;
 }
 .header_contents a{
     color: #fff;
@@ -105,8 +106,20 @@ body{
 
 .gametitle_list{
     display: flex;
+    justify-content: space-between;
 }
 
-.game_images img{
-    size: 100px;
+.game_contents{
+    border: #fff 2px solid;
+    padding: 10px;
+}
+
+.game_contents img{
+    width: 300px;
+}
+
+.game_title{
+    width: 100%;
+    margin-top: 10px;
+    border-top: 2px solid #fff;
 }
