@@ -5,7 +5,7 @@ html,header,div,body,main,h1,h2,h3,p,img,a{
     scroll-behavior: smooth;
 }
 body{
-    background-color: #262829;
+    background-color: #2c3133dc;
     color: #fff;
 }
 
@@ -51,7 +51,7 @@ body{
 }
 
 .header_contents{
-    background-color: #262829;
+    position: sticky;
     margin: 0 auto;
 }
 
