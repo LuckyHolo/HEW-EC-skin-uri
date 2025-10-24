@@ -105,8 +105,8 @@ body{
     text-align: center;
 }
 
-.main_warapper h1{
-    padding-bottom: 10px;
+.main_warapper h2{
+    padding: 20px;
     font-size: 50px;
     font-family: "DotGothic16";
 }
@@ -139,7 +139,7 @@ body{
     color: rgb(124, 51, 124);
 }
 
-.game_contents img{
+.game_images img{
     width: 300px;
 }
 
@@ -147,6 +147,14 @@ body{
     width: 100%;
     margin-top: 10px;
     border-top: 2px solid #fff;
+}
+
+.game_title p{
+    font-size: 25px;
+}
+
+.skin_list{
+    display: flex;
 }
 
 /* shop.htmlのcssここから↓ */
