@@ -23,7 +23,7 @@ body{
 
 
 
-.header_warapper{
+.header_wrapper{
     margin: 0 auto;
     text-align: center;
 }
@@ -99,14 +99,14 @@ body{
     font-size: 40px;
 }
 
-.main_warapper{
+.main_wrapper{
     width: 1000px;
     margin: 0 auto;
     padding-top: 100px;
     text-align: center;
 }
 
-.main_warapper h2{
+.main_wrapper h2{
     padding: 20px;
     font-size: 50px;
     font-family: "DotGothic16";
@@ -163,4 +163,36 @@ body{
     object-fit: contain;
 }
 
+.slide_contents li{
+    list-style: none;
+}
+
+footer{
+    background-color: #000;
+}
+
+.footer_title{
+    padding: 30px;
+    text-align: center;
+    margin: 0 auto;
+}
 /* shop.htmlのcssここから↓ */
+
+
+/* complite.css */
+.back_button{
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 100px;
+}
+
+.back_button button{
+    background-color: #000;
+    border-radius: 10px;
+}
+
+.back_button a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+}
