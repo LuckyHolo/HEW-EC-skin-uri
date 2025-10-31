@@ -80,18 +80,19 @@ body{
     justify-content: space-between;
     margin: 0 auto;
 }
-.header_contents_kinou i{
-    margin: 10px;
+
+.header_contents_kinou a{
+    margin: 5px;
     color: #fff;
-}
-.header_contents_kinou i:hover{
-    color: rgb(122, 0, 122);
+    font-size: 25px;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .kensaku{
     border: solid 2px #fff;
     border-radius: 50px;
-    width: 500px;
+    width: 200px;
 }
 
 .kensaku i{
@@ -155,6 +156,11 @@ body{
 
 .skin_list{
     display: flex;
+}
+
+.slide img{
+    width: 400px;
+    object-fit: contain;
 }
 
 /* shop.htmlのcssここから↓ */
