@@ -177,3 +177,22 @@ footer{
     margin: 0 auto;
 }
 /* shop.htmlのcssここから↓ */
+
+
+/* complite.css */
+.back_button{
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 100px;
+}
+
+.back_button button{
+    background-color: #000;
+    border-radius: 10px;
+}
+
+.back_button a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+}
