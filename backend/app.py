@@ -16,9 +16,20 @@ with app.app_context():
 
 # --- ROUTES (?) ---
 
-# @app.route("/")
-# def index():
-#     return render_template("index.html")
+@app.route("/")
+def index():
+    games = Games
+    items = Item.query.order_by(Item.id.desc().limit(3)).all
+    return render_template("index.html")
+
+@app.route("/account")
+def account():
+    return render_template("account.html")
+
+@app.route("/items")
+def items_all():
+    items = Item.query.order_by(Item.id.desc()).all()
+    return render_template("items.html")
 
 
 # # プレースホルダ

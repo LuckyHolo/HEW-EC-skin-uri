@@ -52,7 +52,6 @@ class Item(db.Model):
     category_2 = db.Column(db.String(100))
     category_3 = db.Column(db.String(100))
     created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
-    availability = db.Column(db.Boolean, nullable=False, default=True)
     description = db.Column(db.Text, nullable=False)
     img_url = db.Column(db.String(255), nullable=False)
     item_link = db.Column(db.String(255), nullable=False)
