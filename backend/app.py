@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify
 from flask_cors import CORS
-from models import db, User, Item, Cart, CartItem, ItemFavorite  # 試す
+from models import db, User, Item, Game, Cart, CartItem, ItemFavorite  # 試す
 from config import Config 
 
 app = Flask(__name__)
@@ -18,7 +18,7 @@ with app.app_context():
 
 @app.route("/")
 def index():
-    games = Games
+    games = Game
     items = Item.query.order_by(Item.id.desc().limit(3)).all
     return render_template("index.html")
 
