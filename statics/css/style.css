@@ -178,6 +178,27 @@ footer{
 }
 /* shop.htmlのcssここから↓ */
 
+/* cart.htmlのcss */
+.buy_button{
+    width: 300px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 30px;
+    background-color: #fff;
+    border: 3px solid #000;
+    border-radius: 30px;
+}
+
+.buy_button a{
+    font-size: 30px;
+    color: #000;
+    text-decoration: none;
+}
+
+.buy_button a:hover{
+    color: rgb(124, 51, 124);
+}
 
 /* complite.css */
 .back_button{
