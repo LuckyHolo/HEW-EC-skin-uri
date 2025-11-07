@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../statics/css/style.css">
     <link rel="javascript" href="../statics/js/script.js">
-    <link href="https://use.fontawesome.com/releases/v6.6.0/css/all.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap"
@@ -15,27 +14,23 @@
 
 <body>
     <header>
-        <div class="header_warapper">
+        <!-- ヘッダーの背景と文字部分 -->
+        <div class="header_wrapper">
             <div class="header_title">
                 <h2>買えないをどこでも</h2>
                 <h1>Skin Uri</h1>
             </div>
-
+            <!-- ヘッダーのコンテンツ部分 -->
             <div class="header_contents_warapper">
                 <div class="header_contents">
                     <ul>
                         <a href="">
-                            <li>GAMETITLE</li>
+                            <li>HOME</li>
                         </a>
                         <a href="../templates/shop.html">
-                            <li>SKINS</li>
+                            <li>SKINS SHOPS</li>
                         </a>
-                        <a href="">
-                            <li>TOP SELLING</li>
-                        </a>
-                        <a href="">
-                            <li>BLOG</li>
-                        </a>
+
                     </ul>
                 </div>
                 <div class="header_contents_kinou">
@@ -44,79 +39,56 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </a>
                     </div>
-                    <a href=""><i class="fa-solid fa-user"></i></a>
-                    <a href=""><i class="fa-solid fa-cart-shopping"></i></a>
+                    <a href="../templates/account.html">Login</a>
+                    <a href="">Cart</a>
                 </div>
             </div>
         </div>
     </header>
     <main>
-        <div class="main_warapper">
-            <h1>Game Title</h1>
+        <div class="main_wrapper">
+            <h2 id="Gametitle">Game Title</h2>
             <div class="gametitle_list">
+                {% for game in banner_games %}
                 <div class="game_contents">
-                    <a href="">
-                        <div class="game_images">
-                            <img src="../statics/images/sample.jpg" alt="">
-                        </div>
-                        <div class="game_title">
-                            <h2>サンプル</h2>
-                        </div>
-                    </a>
+                    <div class="game_images">
+                        <!-- ゲームのタイトル画面が欲しい -->
+                        <img src="{{ url_for('static', filename=game.img) }}" alt="{{ game.name }}">
+                    </div>
+                    <div class="game_title">
+                        <p>{{ game.name }}</p>
+                    </div>
                 </div>
-                <div class="game_contents">
-                    <a href="">
-                        <div class="game_images">
-                            <img src="../statics/images/sample.jpg" alt="">
-                        </div>
-                        <div class="game_title">
-                            <h2>サンプル</h2>
-                        </div>
-                    </a>
+                {% endfor %}
+            </div>
+            <h2>SKINS</h2>
+            <div class="skin_list">
+                <div class="slide">
+                    <!-- 商品画像が欲しい -->
+                    <img src="../statics/images/sanple1.png" alt="">
+                    <div class="slide_contents">
+                        <!-- 名前　価格 -->
+                        <ul>
+                            <li>FortNite</li>
+                            <li>アイスブレーカー</li>
+                            <li>500V</li>
+                            <li>アンコモン</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="game_contents">
-                    <a href="">
-                        <div class="game_images">
-                            <img src="../statics/images/sample.jpg" alt="">
-                        </div>
-                        <div class="game_title">
-                            <h2>サンプル</h2>
-                        </div>
-                    </a>
+                <div class="slide">
+                    <img src="../statics/images/sample2.jpg" alt="">
                 </div>
-                <div class="game_contents">
-                    <a href="">
-                        <div class="game_images">
-                            <img src="../statics/images/sample.jpg" alt="">
-                        </div>
-                        <div class="game_title">
-                            <h2>サンプル</h2>
-                        </div>
-                    </a>
+                <div class="slide">
+                    <img src="../statics/images/sanple3.avif" alt="">
                 </div>
-                <div class="game_contents">
-                    <a href="">
-                        <div class="game_images">
-                            <img src="../statics/images/sample.jpg" alt="">
-                        </div>
-                        <div class="game_title">
-                            <h2>サンプル</h2>
-                        </div>
-                    </a>
-                </div>
-                <div class="game_contents">
-                    <a href="">
-                        <div class="game_images">
-                            <img src="../statics/images/sample.jpg" alt="">
-                        </div>
-                        <div class="game_title">
-                            <h2>サンプル</h2>
-                        </div>
-                    </a>
-                </div>
-                <button>もっと見る(ハリボテ)</button>
             </div>
     </main>
+    <footer>
+        <div class="footer_title">
+            <h2>Skin Uri</h2>
+        </div>
+    </footer>
 </body>
 
 </html>

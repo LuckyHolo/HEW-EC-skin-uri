@@ -3,33 +3,36 @@ from flask_cors import CORS
 from models import db, User, Item, Game, Cart, CartItem, ItemFavorite  # 試す
 from config import Config 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='statics')
 CORS(app)
 
-app.config.from_object(Config)
+# app.config.from_object(Config)
 
-db.init_app(app)
+# db.init_app(app)
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
 
 # --- ROUTES (?) ---
 
 @app.route("/")
 def index():
-    games = Game
-    items = Item.query.order_by(Item.id.desc().limit(3)).all
-    return render_template("index.html")
+    banner_games = [
+        {'name': 'Lee Sin', 'img': 'images/skins/leesin_godfist.jpg'},
+        {'name': 'Thresh', 'img': 'images/skins/thresh_darkstar.jpg'},
+        {'name': 'Lux', 'img': 'images/skins/lux_elementalist.jpg'},
+    ]
+    return render_template("index.html", banner_games=banner_games)
 
-@app.route("/account")
-def account():
-    return render_template("account.html")
+# @app.route("/account")
+# def account():
+#     return render_template("account.html")
 
-@app.route("/items")
-def items_all():
-    items = Item.query.order_by(Item.id.desc()).all()
-    return render_template("items.html")
+# @app.route("/items")
+# def items_all():
+#     items = Item.query.order_by(Item.id.desc()).all()
+#     return render_template("items.html")
 
 
 # # プレースホルダ
@@ -76,5 +79,5 @@ def items_all():
 #     ])
 
 
-# if __name__ == "__main__":
-#     app.run(port=8000, debug=True)
+if __name__ == "__main__":
+    app.run(port=8000, debug=True)

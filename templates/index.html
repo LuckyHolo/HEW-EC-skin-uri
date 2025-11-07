@@ -49,33 +49,35 @@
         <div class="main_wrapper">
             <h2 id="Gametitle">Game Title</h2>
             <div class="gametitle_list">
+                {% for game in banner_games %}
                 <div class="game_contents">
                     <div class="game_images">
                         <!-- ゲームのタイトル画面が欲しい -->
-                        <img src="../statics/images/sample.jpg" alt="">
+                        <img src="{{ url_for('static', filename=game.img) }}" alt="{{ game.name }}">
                     </div>
                     <div class="game_title">
-                        <p>サンプル</p>
+                        <p>{{ game.name }}</p>
                     </div>
                 </div>
                 <div class="game_contents">
                     <div class="game_images">
                         <!-- ゲームのタイトル画面が欲しい -->
-                        <img src="../statics/images/sample.jpg" alt="">
+                        <img src="{{ url_for('static', filename=game.img) }}" alt="{{ game.name }}">
                     </div>
                     <div class="game_title">
-                        <p>サンプル</p>
+                        <p>{{ game.name }}</p>
                     </div>
                 </div>
                 <div class="game_contents">
                     <div class="game_images">
                         <!-- ゲームのタイトル画面が欲しい -->
-                        <img src="../statics/images/sample.jpg" alt="">
+                        <img src="{{ url_for('static', filename=game.img) }}" alt="{{ game.name }}">
                     </div>
                     <div class="game_title">
-                        <p>サンプル</p>
+                        <p>{{ game.name }}</p>
                     </div>
                 </div>
+                {% endfor %}
             </div>
             <h2>SKINS</h2>
             <div class="skin_list">

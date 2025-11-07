@@ -1,0 +1,198 @@
+html,header,div,body,main,h1,h2,h3,p,img,a{
+    padding: 0;
+    margin: 0;
+    vertical-align: 0;
+    scroll-behavior: smooth;
+}
+body{
+    background-color: #2c3133dc;
+    color: #fff;
+}
+
+.press-start-2p-regular {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.dotgothic16-regular {
+  font-family: "DotGothic16", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
+.header_wrapper{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.header_title{
+    padding-top: 50px;
+}
+
+.header_title h2{
+    font-family: "DotGothic16";
+    font-size: 40px;
+    padding-bottom: 20px;
+}
+
+.header_title h1{
+    font-family: "Press Start 2P";
+    font-size: 80px;
+}
+
+.header_contents_warapper{
+    width: 100%;
+    display: flex;
+    padding-top: 40px;
+    margin: 0 auto;
+}
+
+.header_contents{
+    position: sticky;
+    margin: 0 auto;
+}
+
+.header_contents ul{
+    display: flex;
+    margin-top: 20px;
+    padding: 0;
+}
+.header_contents li{
+    font-size: 30px;
+    list-style: none;
+    padding-right: 20px;
+}
+.header_contents a{
+    color: #fff;
+    text-decoration: none;
+}
+.header_contents a:hover{
+    color: rgb(124, 51, 124);
+}
+
+.header_contents_kinou{
+    width: 500px;
+    display: flex;
+    font-size: 50px;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.header_contents_kinou a{
+    margin: 5px;
+    color: #fff;
+    font-size: 25px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.kensaku{
+    border: solid 2px #fff;
+    border-radius: 50px;
+    width: 200px;
+}
+
+.kensaku i{
+    font-size: 40px;
+}
+
+.main_wrapper{
+    width: 1000px;
+    margin: 0 auto;
+    padding-top: 100px;
+    text-align: center;
+}
+
+.main_wrapper h2{
+    padding: 20px;
+    font-size: 50px;
+    font-family: "DotGothic16";
+}
+
+.gametitle_list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.gametitle_list button{
+    width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 20px;
+}
+
+.game_contents{
+    border: #fff 2px solid;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.game_contents a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.game_contents a:hover{
+    color: rgb(124, 51, 124);
+}
+
+.game_images img{
+    width: 300px;
+}
+
+.game_title{
+    width: 100%;
+    margin-top: 10px;
+    border-top: 2px solid #fff;
+}
+
+.game_title p{
+    font-size: 25px;
+}
+
+.skin_list{
+    display: flex;
+}
+
+.slide img{
+    width: 400px;
+    object-fit: contain;
+}
+
+.slide_contents li{
+    list-style: none;
+}
+
+footer{
+    background-color: #000;
+}
+
+.footer_title{
+    padding: 30px;
+    text-align: center;
+    margin: 0 auto;
+}
+/* shop.htmlのcssここから↓ */
+
+
+/* complite.css */
+.back_button{
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 100px;
+}
+
+.back_button button{
+    background-color: #000;
+    border-radius: 10px;
+}
+
+.back_button a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+}

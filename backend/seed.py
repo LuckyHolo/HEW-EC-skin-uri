@@ -1,6 +1,7 @@
 from app import app, db
 from models import Game, Item
 from datetime import datetime, timezone
+from sqlalchemy import text
 
 
 # 初期値
@@ -13,6 +14,13 @@ with app.app_context():
     db.session.query(Game).delete()
     db.session.commit()
     # データリセット、不要だったらコメントアウト
+
+    # --------------------------------------
+    db.session.execute(text("ALTER TABLE games AUTO_INCREMENT = 1"))
+    db.session.execute(text("ALTER TABLE items AUTO_INCREMENT = 1"))
+    db.session.commit()
+
+    # --------------------------------------
 
     game = Game(game_name="League of Legends")
     db.session.add(game)
