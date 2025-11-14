@@ -1,7 +1,8 @@
 from flask import Flask, render_template, jsonify
 from flask_cors import CORS
 from models import db, User, Item, Game, Cart, CartItem, ItemFavorite  # 試す
-from config import Config 
+from config import Config
+# from routes.account import account_bp
 
 app = Flask(__name__, static_folder='statics')
 CORS(app)
@@ -14,7 +15,7 @@ CORS(app)
 #     db.create_all()
 
 
-# --- ROUTES (?) ---
+# --- ROUTES ---
 
 @app.route("/")
 def index():
@@ -24,6 +25,9 @@ def index():
         {'name': 'Lux', 'img': 'images/skins/lux_elementalist.jpg'},
     ]
     return render_template("index.html", banner_games=banner_games)
+
+# app.register_blueprint(account_bp)
+# app.register_blueprint(items_bp)
 
 # @app.route("/account")
 # def account():
