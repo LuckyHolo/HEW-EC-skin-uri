@@ -1,8 +1,10 @@
-html,header,div,body,main,h1,h2,h3,p,img,a{
+html,header,div,body,main,h1,h2,h3,p,img,a,ul,li{
     padding: 0;
     margin: 0;
     vertical-align: 0;
     scroll-behavior: smooth;
+    text-decoration: none;
+    list-style: none;
 }
 body{
     background-color: #2c3133dc;
@@ -62,12 +64,10 @@ body{
 }
 .header_contents li{
     font-size: 30px;
-    list-style: none;
     padding-right: 20px;
 }
 .header_contents a{
     color: #fff;
-    text-decoration: none;
 }
 .header_contents a:hover{
     color: rgb(124, 51, 124);
@@ -85,7 +85,6 @@ body{
     margin: 5px;
     color: #fff;
     font-size: 25px;
-    text-decoration: none;
     font-weight: bold;
 }
 
@@ -133,7 +132,6 @@ body{
 
 .game_contents a{
     color: #fff;
-    text-decoration: none;
 }
 
 .game_contents a:hover{
@@ -163,10 +161,6 @@ body{
     object-fit: contain;
 }
 
-.slide_contents li{
-    list-style: none;
-}
-
 footer{
     background-color: #000;
 }
@@ -193,7 +187,6 @@ footer{
 .buy_button a{
     font-size: 30px;
     color: #000;
-    text-decoration: none;
 }
 
 .buy_button a:hover{
@@ -214,11 +207,12 @@ footer{
 
 .back_button a{
     color: #fff;
-    text-decoration: none;
     font-size: 20px;
 }
 
 /* buy.htmlのcss */
+
+
 /* モーダルを開くボタン */
 .modal-open{
   color: #000;
