@@ -47,14 +47,19 @@
     </header>
     <main>
         <div class="main_wrapper">
-            <h2>Log in 登録</h2>
+            <h2>Register 新規登録</h2>
             <img src="../statics/images/login_image.png" alt="login_image">
             <form action="" method="POST">
                 <p>User name</p>
                 <input type="text" name="user" placeholder="User name">
+                <p>Email</p>
+                <input type="email" name="email" placeholder="Email">
                 <p>Password</p>
                 <input type="password" name="password" placeholder="Password">
-                <button type="submit">Log in</button>
+                <p>Confirm Password</p>
+                <input type="password" name="confirm_password" placeholder="Confirm Password">
+                <button type="submit">Register</button>
+                <p>Already have an account? <a href="../templates/login.html">Login here</a></p>
             </form>
 
         </div>
