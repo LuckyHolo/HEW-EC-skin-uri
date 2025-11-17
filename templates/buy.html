@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../statics/css/style.css">
-    <link rel="javascript" href="../statics/js/script.js">
+    <script src="../statics/js/script.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap"
@@ -47,8 +47,29 @@
     </header>
     <main>
         <div class="main_wrapper">
-            
-        </div>
+            <h2>支払い/最終確認</h2>
+            <ul>
+                <li>クレジットカード</li>
+                <li>後払い(paidy)</li>
+                <li>着払い</li>
+            </ul>
+            <!-- モーダルを開くボタン -->
+            <button class="modal-open js-modal-open">購入する</button>
+
+            <!-- モーダル本体 -->
+            <div class="modal js-modal">
+                <div class="modal-container">
+                    <!-- モーダルを閉じるボタン -->
+                    <div class="modal-close js-modal-close">×</div>
+                    <!-- モーダル内部のコンテンツ -->
+                    <div class="modal-content">
+                        <h2>本当によろしいですか？</h2>
+                        <div class="buy_button">
+                        <a href="../templates/complite.html">購入する</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
     </main>
     <footer>
         <div class="footer_title">
