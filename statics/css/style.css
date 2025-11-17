@@ -323,3 +323,34 @@ footer{
   margin: 1em 0;
 }
 
+/* cart page ここから */
+.cart-table {
+    width: 660px;
+    margin: auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cart-table th, .cart-table td {
+    border-bottom: 1px solid #eee;
+    padding: 12px;
+    text-align: center;
+    color: #000;
+}
+
+.cart-table th {
+    background: #b0b0b0;
+    font-weight: bold;
+}
+
+.cart-table img {
+    width: 80px;
+    height: 80px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+/* cart page ここまで */
