@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smolmart</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        .toast-msg {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            opacity: 1;
+            transition: opacity .5s ease, transform .5s ease;
+            z-index: 9999;
+        }
+
+        .toast-msg.fade-out {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+    </style>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        Welcome, {{ user.username }}!
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a> |
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+
+    <h1>Products</h1>
+
+    <form id="search-form" method="get" action="{% url 'home' %}">
+        <input type="text" name="q" id="search-input" placeholder="Search products..." value="{{ query }}">
+
+        <select name="category" id="category-select">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}" {% if cat.id|stringformat:"s" == category_id %}selected{% endif %}>
+                    {{ cat.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <input type="number" name="min_price" id="min-price" placeholder="Min price" value="{{ request.GET.min_price }}">
+        <input type="number" name="max_price" id="max-price" placeholder="Max price" value="{{ request.GET.max_price }}">
+
+        <button type="submit">Search</button>
+
+        <select name="sort" id="sort-select">
+            <option value="">Sort: None</option>
+            <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Price: Low → High</option>
+            <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Price: High → Low</option>
+        </select>
+
+    </form>
+
+    <h3>Categories</h3>
+    <ul>
+        <li><a href="#" class="category-link" data-id="">All</a></li>
+        {% for cat in categories %}
+            <li>
+                <a href="#" class="category-link" data-id="{{ cat.id }}">{{ cat.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div id="products-container">
+         {% include 'shop/products_list.html' %} 
+    </div>
+
+    <div id="pagination-container">
+        {% include 'shop/pagination.html' %}
+    </div>
+
+    <a href="{% url 'view_cart' %}">View Cart</a>
+    
+</body>
+<script>
+$(document).ready(function() {
+
+    function loadProducts(params) {
+        $.ajax({
+            url: "{% url 'home' %}",
+            data: params,
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+
+            success: function(response) {
+                $('#products-container').html(response.html);
+                $('#pagination-container').html(response.pagination);
+            }
+        });
+    }
+
+// SEARCH FORM
+
+    $('#search-form').on('submit', function(e) {
+        e.preventDefault();
+        const params = {
+            q: $('#search-input').val(),
+            category: $('#category-select').val(),
+            min_price: $('#min-price').val(),
+            max_price: $('#max-price').val(),
+            sort: $('#sort-select').val(),
+        };
+        loadProducts(params);
+    });
+
+// CATEGORIES
+
+    $(document).on('click', '.category-link', function(e) {
+        e.preventDefault();
+        const params = {
+            category: $(this).data('id'),
+            q: $('#search-input').val(),
+            min_price: $('#min-price').val(),
+            max_price: $('#max-price').val(),
+            sort: $('#sort-select').val(),
+        };
+        loadProducts(params);
+    });
+
+// PAGINATION
+
+    $(document).on('click', '.page-link', function(e) {
+        e.preventDefault();
+        const page = $(this).data('page');
+
+        const params = {
+            q: $('#search-input').val(),
+            category: $('#category-select').val(),
+            min_price: $('#min-price').val(),
+            max_price: $('#max-price').val(),
+            sort: $('#sort-select').val(),
+            page: page,
+        };
+        loadProducts(params);
+    })
+
+// SORTING
+
+    $('#sort-select').on('change', function() {
+        const params = {
+            q: $('#search-input').val(),
+            category: $('#category-select').val(),
+            min_price: $('#min-price').val(),
+            max_price: $('#max-price').val(),
+            sort: $(this).val(),
+        };
+        loadProducts(params);
+    });
+})
+
+// NOTIFICATIONS
+
+$(document).on("click", ".add-to-cart-btn", function() {
+    const productId = $(this).data("id");
+
+    fetch(`/add-to-cart-ajax/${productId}/`, {
+        method: "POST",
+        headers: { "X-CSRFToken": "{{ csrf_token }}" }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === "ok") showToast(data.message);
+    });
+});
+
+function showToast(msg) {
+    const toast = document.createElement("div");
+    toast.className = "toast-msg";
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.classList.add("fade-out"); setTimeout(() => toast.remove(), 500); }, 2500);
+};
+</script>
+</html>
