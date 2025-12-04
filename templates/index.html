@@ -46,13 +46,13 @@
         </div>
     </header>
     <main>
-        <div class="main_wrapper">
+        <!-- <div class="main_wrapper">
             <h2 id="Gametitle">Game Title</h2>
             <div class="gametitle_list">
                 {% for game in banner_games %}
                 <div class="game_contents">
                     <div class="game_images">
-                        <!-- ゲームのタイトル画面が欲しい -->
+                        ゲームのタイトル画面が欲しい
                         <img src="{{ url_for('static', filename=game.img) }}" alt="{{ game.name }}">
                     </div>
                     <div class="game_title">
@@ -61,7 +61,7 @@
                 </div>
                 <div class="game_contents">
                     <div class="game_images">
-                        <!-- ゲームのタイトル画面が欲しい -->
+                        ゲームのタイトル画面が欲しい
                         <img src="{{ url_for('static', filename=game.img) }}" alt="{{ game.name }}">
                     </div>
                     <div class="game_title">
@@ -70,7 +70,7 @@
                 </div>
                 <div class="game_contents">
                     <div class="game_images">
-                        <!-- ゲームのタイトル画面が欲しい -->
+                        ゲームのタイトル画面が欲しい
                         <img src="{{ url_for('static', filename=game.img) }}" alt="{{ game.name }}">
                     </div>
                     <div class="game_title">
@@ -82,10 +82,10 @@
             <h2>SKINS</h2>
             <div class="skin_list">
                 <div class="slide">
-                    <!-- 商品画像が欲しい -->
+                    商品画像が欲しい
                     <img src="../statics/images/sanple1.png" alt="">
                     <div class="slide_contents">
-                        <!-- 名前　価格 -->
+                        名前　価格
                         <ul>
                             <li>FortNite</li>
                             <li>アイスブレーカー</li>
@@ -100,7 +100,194 @@
                 <div class="slide">
                     <img src="../statics/images/sanple3.avif" alt="">
                 </div>
-            </div>
+            </div> -->
+            <section class="hero">
+                <div class="hero-text">
+                    <div class="hero-eyebrow">Limited-time deals</div>
+                    <h1 class="hero-title">Premium game skins, instant delivery.</h1>
+                    <p class="hero-subtitle">
+                    Discover exclusive skins for your favorite titles. Secure checkout, fast delivery, and curated collections for every playstyle.
+                    </p>
+                    <div class="hero-cta-row">
+                    <button class="btn-primary">Browse all skins</button>
+                    <button class="btn-outline">View current discounts</button>
+                    </div>
+                    <div class="hero-pill">
+                    <span>★</span>
+                    Trusted by thousands of players every week
+                    </div>
+                </div>
+
+                <div class="promo-slider">
+                    <div class="promo-header">
+                    <span class="badge">Live discounts</span>
+                    <span>Scroll to view more offers →</span>
+                    </div>
+                    <div class="promo-track">
+                    <div class="promo-card">
+                        <div class="promo-tag">Featured skin</div>
+                        <div class="promo-title">Dragonfire AK | Limited Edition</div>
+                        <div class="promo-desc">Up to 40% off on selected rifles this week only.</div>
+                        <div class="promo-meta">
+                        <span class="promo-discount">-40%</span>
+                        <span class="promo-badge">Ends in 3 days</span>
+                        </div>
+                    </div>
+
+                    <div class="promo-card">
+                        <div class="promo-tag">Bundle deal</div>
+                        <div class="promo-title">Neon City Knife Bundle</div>
+                        <div class="promo-desc">Knife bundle for Cyber Strike fans with extra bonus skin.</div>
+                        <div class="promo-meta">
+                        <span class="promo-discount">Save $18</span>
+                        <span class="promo-badge">Top seller</span>
+                        </div>
+                    </div>
+
+                    <div class="promo-card">
+                        <div class="promo-tag">Seasonal</div>
+                        <div class="promo-title">Winter Legends Collection</div>
+                        <div class="promo-desc">Exclusive seasonal skins with animated effects.</div>
+                        <div class="promo-meta">
+                        <span class="promo-discount">-25%</span>
+                        <span class="promo-badge">New</span>
+                        </div>
+                    </div>
+
+                    <div class="promo-card">
+                        <div class="promo-tag">Starter pack</div>
+                        <div class="promo-title">Beginner's Loadout</div>
+                        <div class="promo-desc">Perfect entry bundle for new players in Valor Arena.</div>
+                        <div class="promo-meta">
+                        <span class="promo-discount">From $9.99</span>
+                        <span class="promo-badge">Great value</span>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                    <h2 class="section-title">Skins by Game</h2>
+                    <p class="section-subtitle">Pick a game to explore its exclusive skin collections.</p>
+                    </div>
+                </div>
+
+                <div class="games-grid">
+                    <article class="game-card">
+                    <div class="game-image-wrap">
+                        <img src="https://via.placeholder.com/800x450?text=Strike+Protocol" alt="Strike Protocol">
+                        <div class="game-overlay"></div>
+                        <div class="game-info">
+                        <div>
+                            <div class="game-name">Strike Protocol</div>
+                            <div class="game-tagline">Tactical FPS • 120+ skins</div>
+                        </div>
+                        <div class="game-badge">Browse skins</div>
+                        </div>
+                    </div>
+                    </article>
+
+                    <article class="game-card">
+                    <div class="game-image-wrap">
+                        <img src="https://via.placeholder.com/800x450?text=Valor+Arena" alt="Valor Arena">
+                        <div class="game-overlay"></div>
+                        <div class="game-info">
+                        <div>
+                            <div class="game-name">Valor Arena</div>
+                            <div class="game-tagline">Hero shooter • 80+ skins</div>
+                        </div>
+                        <div class="game-badge">Browse skins</div>
+                        </div>
+                    </div>
+                    </article>
+
+                    <article class="game-card">
+                    <div class="game-image-wrap">
+                        <img src="https://via.placeholder.com/800x450?text=Cyber+Strike" alt="Cyber Strike">
+                        <div class="game-overlay"></div>
+                        <div class="game-info">
+                        <div>
+                            <div class="game-name">Cyber Strike</div>
+                            <div class="game-tagline">Sci-fi arena • 95+ skins</div>
+                        </div>
+                        <div class="game-badge">Browse skins</div>
+                        </div>
+                    </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                    <h2 class="section-title">Top Selling Skins</h2>
+                    <p class="section-subtitle">Best-selling skins on the store right now.</p>
+                    </div>
+                </div>
+
+                <div class="top-sellers">
+                    <div class="ranking-list">
+                    <div class="ranking-item">
+                        <div class="rank-badge">1</div>
+                        <div class="ranking-main">
+                        <div class="ranking-name">Crimson Phantom | Sniper</div>
+                        <div class="ranking-meta">Strike Protocol · Mythic tier</div>
+                        </div>
+                        <div class="ranking-sales">
+                        1,284
+                        <span>Units sold this week</span>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item">
+                        <div class="rank-badge">2</div>
+                        <div class="ranking-main">
+                        <div class="ranking-name">Neon Blade | Assassin</div>
+                        <div class="ranking-meta">Cyber Strike · Legendary</div>
+                        </div>
+                        <div class="ranking-sales">
+                        1,032
+                        <span>Units sold this week</span>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item">
+                        <div class="rank-badge">3</div>
+                        <div class="ranking-main">
+                        <div class="ranking-name">Celestial Wings | Support</div>
+                        <div class="ranking-meta">Valor Arena · Epic</div>
+                        </div>
+                        <div class="ranking-sales">
+                        876
+                        <span>Units sold this week</span>
+                        </div>
+                    </div>
+                    </div>
+
+                    <aside class="top-sellers-sidecard">
+                    <div class="sidecard-title">Store snapshot</div>
+                    <div class="sidecard-metric">
+                        <span class="sidecard-label">Active deals</span>
+                        <strong>27</strong>
+                    </div>
+                    <div class="sidecard-metric">
+                        <span class="sidecard-label">Games covered</span>
+                        <strong>9</strong>
+                    </div>
+                    <div class="sidecard-metric">
+                        <span class="sidecard-label">Skins available</span>
+                        <strong>420+</strong>
+                    </div>
+                    <div class="sidecard-metric">
+                        <span class="sidecard-label">Instant delivery</span>
+                        <strong>Yes</strong>
+                    </div>
+                    </aside>
+                </div>
+            </section>       
     </main>
     <footer>
         <div class="footer_title">
