@@ -46,7 +46,87 @@
         </div>
     </header>
     <main>
-        
+        <section class="toolbar">
+            <div class="toolbar-section">
+                <span class="toolbar-label">Category:</span>
+                <div class="category-list" id="categoryList">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn active" data-category="Skins">Skins</button>
+                    <button class="category-btn active" data-category="Weapons">Weapons</button>
+                    <button class="category-btn active" data-category="Accessories">Accessories</button>
+                    <button class="category-btn active" data-category="Others">Others</button>
+                </div>
+            </div>
+            <div class="search-box">
+                <input id="searchInput" type="text" placeholder="Search products..."/>
+            </div>
+
+
+            <div class="toolbar-section">
+                <span class="toolbar-label">Sort by:</span>
+                <select id="sortSelect" class="sort-select">
+                <option value="none">Default</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                </select>
+            </div>
+        </section>
+
+        <section id="productGrid" class="product-grid">
+            <article
+                class="product-card"
+                data-name="Wireless Bluetooth Earbuds"
+                data-category="electronics"
+                data-price="299">
+
+                <div class="product-image-wrap">
+                    <img src="" alt="">
+                </div>
+                <h2 class="product-name">Item1</h2>
+                <div class="product-meta">
+                    <span class="product-price">$2.99</span>
+                    <span class="product-category-tag">Skin</span>
+                </div>
+            </article>
+
+            <article
+                class="product-card"
+                data-name="Basic White T-Shirt"
+                data-category="fashion"
+                data-price="79">
+
+                <div class="product-image-wrap">
+                    <img src="" alt="">
+                </div>
+                <h2 class="product-name">Item2</h2>
+                <div class="product-meta">
+                    <span class="product-price">$5.99</span>
+                    <span class="product-category-tag">Accessory</span>
+                </div>
+            </article>
+
+            <article
+                class="product-card"
+                data-name="Nordic Cushion"
+                data-category="home"
+                data-price="59">
+
+                <div class="product-image-wrap">
+                    <img src="" alt="">
+                </div>
+                <h2 class="product-name">Item3</h2>
+                <div class="product-meta">
+                    <span class="product-price">$3.99</span>
+                    <span class="product-category-tag">Others</span>
+                </div>
+            </article>
+        </section>
+
+      
+
+        <div id="noResult" class="no-result">
+        No products found.
+        </div>
            
     </main>
     <footer>
