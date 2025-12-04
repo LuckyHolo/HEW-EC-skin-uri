@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order History — Skin Uri{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="page-hero text-center py-5">
+        <h1 class="order-history-main-title">
+            ORDER HISTORY
+        </h1>
+        <p class="tagline mt-4">All your rare skin purchases in one place</p>
+    </div>
+
+    <!-- ORDERS LIST -->
+    {% for order in orders %}
+    <div class="cyber-card mb-4">
+        <div class="card-header-cyber d-flex justify-content-between align-items-center">
+            <div>
+                <span class="badge-id">ORDER #{{ order.user_order_number|default:order.id }}</span>
+                <span class="ms-4 text-muted">{{ order.created_at|date:"d M Y - H:i" }}</span>
+            </div>
+            <div class="total-price">
+                TOTAL <span class="price-glow">¥{{ order.total }}</span>
+            </div>
+        </div>
+
+        <div class="card-body-cyber">
+            {% for item in order.order_items.all %}
+            <div class="order-item-row">
+                <div class="item-image">
+                    <img src="{% if item.product.image_name %}{{ MEDIA_URL }}{{ item.product.image_name }}{% else %}{% static 'images/no-skin.png' %}{% endif %}"
+                         alt="{{ item.product.skin_name|default:item.product.name }}">
+                </div>
+                <div class="item-details flex-grow-1">
+                    <h5 class="champion-name">{{ item.product.champion_name }}</h5>
+                    <h4 class="skin-name">{{ item.product.skin_name|default:item.product.name }}</h4>
+                </div>
+                <div class="item-quantity text-center">
+                    <span class="qty-badge">{{ item.quantity }}×</span>
+                </div>
+                <div class="item-price text-end">
+                    <span class="price-glow">¥{{ item.price }}</span>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center text-muted py-4">No items in this order.</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="text-center py-5">
+        <h3 class="text-muted">No orders yet</h3>
+        <a href="{% url 'item_list' %}" class="enter-shop-btn mt-4">START SHOPPING →</a>
+    </div>
+    {% endfor %}
+
+    <div class="text-center mt-5 py-4">
+        <a href="{% url 'account' %}" class="btn-back">
+            ← BACK TO ACCOUNT
+        </a>
+    </div>
+</div>
+{% endblock %}

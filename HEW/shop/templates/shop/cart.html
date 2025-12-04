@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<div class="cart-container">
+    <h1>YOUR CART</h1>
+
+    {% if cart_items %}
+        <div class="cart-items">
+            {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="item-image">
+                        <img src="{{ MEDIA_URL }}{{ item.product.image_name }}" alt="{{ item.product.skin_name }}">
+                    </div>
+                    <div class="item-name">
+                        {{ item.product.champion_name }}
+                        <span style="color:var(--accent);font-size:0.9em;">{{ item.product.skin_name }}</span>
+                    </div>
+                    <div class="quantity">{{ item.quantity }}×</div>
+                    <div class="subtotal">¥{{ item.subtotal }}</div>
+                    <a href="{% url 'remove_from_cart' item.id %}" class="remove-btn">Remove</a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="cart-footer">
+            <div class="total-price">TOTAL: ¥{{ total }}</div>
+            <div>
+                <a href="{% url 'checkout' %}" class="checkout-btn">PROCEED TO CHECKOUT</a>
+                <a href="{% url 'shop' %}" class="back-home">← Continue Shopping</a>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="empty-cart">
+            カートは空っぽだね！
+        </div>
+        <div style="text-align:center;margin-top:3rem;">
+            <a href="{% url 'shop' %}" class="checkout-btn" style="padding:1.2rem 3rem;">BACK TO SHOP</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

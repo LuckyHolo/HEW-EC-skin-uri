@@ -1,0 +1,43 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/fav-btn.css' %}">
+
+<div class="products-grid">
+    {% for p in products %}
+        <div class="skin-card">
+            {% if user.is_authenticated %}
+                <button class="fav-btn {% if p.is_favourited %}active{% endif %}" data-id="{{ p.id }}">
+                    {% if p.is_favourited %}♥{% else %}♡{% endif %} お気に入り
+                </button>
+            {% else %}
+                <!-- ログインしていない場合、隠す -->
+                <button class="fav-btn" style="display:none;" data-id="{{ p.id }}"></button>
+            {% endif %}
+
+            <!-- Image -->
+            <div class="skin-image">
+                <img src="{{ MEDIA_URL }}{{ p.image_name }}" alt="{{ p.skin_name|default:p.name }}">
+            </div>
+
+            <!-- Info -->
+            <div class="skin-info">
+                <div class="champion">{{ p.champion_name|default:"Unknown Champion" }}</div>
+                <div class="skin-name">{{ p.skin_name|default:p.name }}</div>
+                <div class="price">¥{{ p.price }}</div>
+
+                <div class="skin-actions">
+                    <a href="{% url 'product_detail' p.id %}" class="detail-btn">詳細</a>
+                    
+                    {% if user.is_authenticated %}
+                        <button class="add-to-cart-btn" data-id="{{ p.id }}">カートに追加</button>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="login-to-buy">ログインしてください。</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="empty-products">
+            <p>空っぽですよ...</p>
+        </div>
+    {% endfor %}
+</div>

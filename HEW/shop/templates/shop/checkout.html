@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="checkout-container">
+    <h1 class="page-title">CHECKOUT</h1>
+
+    <div class="checkout-card">
+        <h3 class="section-title">Your Items</h3>
+
+        <ul class="checkout-list">
+            {% for item in cart_items %}
+                <li class="checkout-item">
+                    {{ item.product.skin_name }} ({{ item.product.champion_name }}) 
+                    × {{ item.quantity }} — <strong>¥{{ item.subtotal }}</strong>
+                </li>
+            {% empty %}
+                <li class="empty">Your cart is empty.</li>
+            {% endfor %}
+        </ul>
+
+        <div class="total-section">
+            <strong>Total: ¥{{ total }}</strong>
+        </div>
+
+        {% if cart_items %}
+        <form method="post" class="checkout-form">
+            {% csrf_token %}
+            <button type="submit" class="pay-btn">PLACE ORDER</button>
+        </form>
+        {% endif %}
+
+        <a href="{% url 'view_cart' %}" class="back-link">
+            ← Back to Cart
+        </a>
+    </div>
+</div>
+{% endblock %}

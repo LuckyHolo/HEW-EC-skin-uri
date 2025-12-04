@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.skin_name }} - {{ product.champion_name }}{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="detail-image">
+        <img src="{{ MEDIA_URL }}{{ product.image_name }}" alt="{{ product.skin_name }}">
+    </div>
+
+    <div class="detail-info">
+        <h1 class="champion-name">{{ product.champion_name }}</h1>
+        <h2 class="skin-name">{{ product.skin_name }}</h2>
+        <div class="lore">{{ product.lore|linebreaks }}</div>
+        <div class="price">¥{{ product.price }}</div>
+
+        <div class="buttons">
+            {% if user.is_authenticated %}
+                <button class="add-to-cart" data-id="{{ product.id }}">ADD TO CART</button>
+                <button class="fav-btn {% if is_favourited %}active{% endif %}" data-id="{{ product.id }}">
+                    {% if is_favourited %}♥{% else %}♡{% endif %} Favourite
+                </button>
+            {% else %}
+                <a href="{% url 'login' %}" class="add-to-cart">Login to add to cart</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

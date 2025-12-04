@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Register - Skin Uri{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h1 class="auth-title">CREATE ACCOUNT</h1>
+
+        {% if error %}
+            <div class="error-msg">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" name="username" required placeholder="Enter username">
+                <i class="fas fa-user icon"></i>
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" required placeholder="you@skinuri.jp">
+                <i class="fas fa-envelope icon"></i>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="••••••••">
+                <i class="fas fa-lock icon"></i>
+            </div>
+
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" required placeholder="••••••••">
+                <i class="fas fa-lock icon"></i>
+            </div>
+
+            <button type="submit" class="register-btn">
+                REGISTER NOW
+            </button>
+        </form>
+
+        <p class="auth-footer">
+            Already have an account? 
+            <a href="{% url 'login' %}">Login here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

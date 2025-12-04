@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+<div class="account-container">
+
+    <div class="account-header">
+        <h2>My Account</h2>
+        <a href="{% url 'index' %}" class="back-home">← Back to Home</a>
+    </div>
+
+    <!-- タブ -->
+    <div class="account-tabs">
+        <button class="tab-btn active" data-target="orders">Orders</button>
+        <button class="tab-btn" data-target="favourites">Favourites</button>
+    </div>
+
+    <!-- タブコンテンツ  -->
+    <div class="tab-content">
+
+        <!-- 注文履歴 -->
+        <div class="tab-panel show" id="orders">
+            {% if orders %}
+                <ul class="orders-list">
+                    {% for order in orders %}
+                        <li class="order-card">
+                            <div class="order-header">
+                                <span class="order-number">Order #{{ order.user_order_number }}</span>
+                                <span class="order-date">{{ order.created_at }}</span>
+                            </div>
+                            <ul class="order-items">
+                                {% for item in order.order_items.all %}
+                                    <li>{{ item.product.name }} — {{ item.quantity }} × ¥{{ item.price }}</li>
+                                {% endfor %}
+                            </ul>
+                            <div class="order-total">Total: ¥{{ order.total }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty">No orders yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- 気に入り -->
+        <div class="tab-panel" id="favourites">
+            {% if favourites %}
+                <div class="fav-grid">
+                    {% for fav in favourites %}
+                        <div class="fav-card">
+                            <div class="fav-image">
+                                <img src="{{ MEDIA_URL }}{{ fav.image_name }}" alt="{{ fav.name }}">
+                            </div>
+                            <div class="fav-info">
+                                <h3>{{ fav.name }}</h3>
+                                <p class="fav-price">¥{{ fav.price }}</p>
+                                <button class="fav-btn remove-fav-btn" data-id="{{ fav.id }}">♥ Remove</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="empty">No favourite items yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const tabBtns = document.querySelectorAll(".tab-btn");
+    const tabPanels = document.querySelectorAll(".tab-panel");
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            tabBtns.forEach(b => b.classList.remove("active"));
+            tabPanels.forEach(p => p.classList.remove("show"));
+
+            btn.classList.add("active");
+            document.getElementById(btn.dataset.target).classList.add("show");
+        });
+    });
+
+    document.querySelectorAll(".remove-fav-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const productId = this.dataset.id;
+            const card = this.closest(".fav-card");
+
+            fetch(`/toggle-favourite/${productId}/`, {
+                method: "POST",
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            }).then(() => card.remove());
+        });
+    });
+});
+</script>
+
+{% endblock %}

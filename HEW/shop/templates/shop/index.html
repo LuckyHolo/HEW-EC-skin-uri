@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Skin Uri - 買えないをどこでも{% endblock %}
+
+{% block content %}
+
+<!-- へーロ -->
+<div class="landing-hero">
+    <div class="container">
+        <div class="hero-title">
+            <h1>SKIN URI</h1>
+            <p class="tagline">買えないをどこでも</p>
+            <a href="{% url 'shop' %}" class="enter-shop-btn">今すぐ購入！ →</a>
+        </div>
+    </div>
+</div>
+
+<!-- ゲーム -->
+<section class="games-section">
+    <div class="container">
+        <h2 class="section-title">GAMES</h2>
+        <div class="games-grid">
+            {% for game in games %}
+                <div class="game-card">
+                    <img src="{% if game.image %}{{ game.image.url }}{% else %}{% static 'images/placeholder-game.jpg' %}{% endif %}" 
+                         alt="{{ game.name }}">
+                    <div class="game-name">{{ game.name }}</div>
+                </div>
+            {% empty %}
+                <p>ゲームまだ1個すら登録してないよ...</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- スキン -->
+<section class="conveyor-section">
+    <div class="container">
+        <h2 class="section-title">SKINS</h2>
+        
+        <div class="conveyor-wrapper">
+            <div class="conveyor-belt">
+                {% for product in random_skins %}
+                <div class="skin-item">
+                    <img src="{% if product.image_name %}{{ MEDIA_URL }}{{ product.image_name }}{% else %}{% static 'images/no-skin.png' %}{% endif %}" 
+                        alt="{{ product.skin_name|default:product.name }}">
+                    <div class="skin-overlay">
+                        <p class="champ">{{ product.champion_name }}</p>
+                        <p class="name">{{ product.skin_name|default:product.name }}</p>
+                        <p class="price">¥{{ product.price }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% for product in random_skins %}
+                <div class="skin-item">
+                    <img src="{% if product.image_name %}{{ MEDIA_URL }}{{ product.image_name }}{% else %}{% static 'images/no-skin.png' %}{% endif %}" 
+                        alt="{{ product.skin_name|default:product.name }}">
+                    <div class="skin-overlay">
+                        <p class="champ">{{ product.champion_name }}</p>
+                        <p class="name">{{ product.skin_name|default:product.name }}</p>
+                        <p class="price">¥{{ product.price }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- フッター -->
+<footer class="cyber-footer">
+    <div class="container">
+        <h3>Skin Uri</h3>
+        <p>買えないをどこでも</p>
+        <p class="copyright">© 2025 Skin Uri. IH22 - グループ８</p>
+    </div>
+</footer>
+
+{% endblock %}
