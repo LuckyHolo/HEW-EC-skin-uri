@@ -413,6 +413,10 @@ footer {
     font-size: 20px;
 }
 
+.cart_wrapper a{
+ color: #fff;
+}
+
 /* 　login.html ここから　*/
 .main_wrapper img {
     width: 150px;
