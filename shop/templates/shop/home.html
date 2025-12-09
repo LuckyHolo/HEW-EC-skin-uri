@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Uri - 商品一覧</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../../../static/css/main.css">
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="main-header">
+        <a href="{% url 'index' %}"><div class="header-title">
+            <h2>買えないをどこでも</h2>
+            <h1>Skin Uri</h1>
+        </a>
+        </div>
+        <div class="header-links">
+            {% if user.is_authenticated %}
+            <span class="welcome">ようこそ, <strong>{{ user.username }}</strong>!</span>
+            {% endif %}
+
+            <a href="{% url 'index' %}">Home</a>
+
+            {% if user.is_authenticated %}
+            <a href="{% url 'view_cart' %}">Cart</a>
+            <a href="{% url 'account' %}">Account</a>
+            <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="hero-title">
+            <h1>SKIN URI</h1>
+            <p class="tagline">買えないをどこでも</p>
+        </div>
+
+        <div class="shop-layout">
+
+            <!-- サイドメニュー（一応） -->
+            <aside class="cyber-sidebar">
+                <form id="search-form" method="get" action="{% url 'shop' %}">
+                    <input type="text" name="q" placeholder="Search skin..." value="{{ query }}">
+
+                    <select name="category">
+                        <option value="">All Categories</option>
+                        {% for cat in categories %}
+                        <option value="{{ cat.id }}" {% if cat.id|stringformat:"s"==category_id %}selected{% endif %}>{{
+                            cat.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <div class="price-range">
+                        <input type="number" name="min_price" placeholder="Min ¥" value="{{ request.GET.min_price }}">
+                        <input type="number" name="max_price" placeholder="Max ¥" value="{{ request.GET.max_price }}">
+                    </div>
+
+                    <select name="sort">
+                        <option value="">Default Sort</option>
+                        <option value="price_asc" {% if sort=="price_asc" %}selected{% endif %}>Price: Low to High
+                        </option>
+                        <option value="price_desc" {% if sort=="price_desc" %}selected{% endif %}>Price: High to Low
+                        </option>
+                    </select>
+
+                    <button type="submit">SEARCH</button>
+                </form>
+
+                <div class="category-box">
+                    <h3>CHAMPIONS</h3>
+                    <div class="champion-list">
+                        <ul>
+                            <li><a href="#" class="champion-link active" data-champion="">All Champions</a></li>
+                            {% for champ in champions %}
+                            <li><a href="#" class="champion-link" data-champion="{{ champ }}">{{ champ }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ページネーション -->
+            <main>
+                <div id="products-container" class="products-grid">
+                    {% include 'shop/products_list.html' %}
+                </div>
+
+                <div id="pagination-container" class="cyber-pagination">
+                    {% include 'shop/pagination.html' %}
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            function loadProducts(params) {
+                $.ajax({
+                    url: "{% url 'shop' %}",
+                    data: params,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    success: function (response) {
+                        $('#products-container').html(response.html);
+                        $('#pagination-container').html(response.pagination);
+                    }
+                });
+            }
+
+            function getFilters() {
+                return {
+                    q: $('input[name="q"]').val(),
+                    category: $('select[name="category"]').val(),
+                    champion: $('.champion-link.active').data('champion'),
+                    min_price: $('input[name="min_price"]').val(),
+                    max_price: $('input[name="max_price"]').val(),
+                    sort: $('select[name="sort"]').val()
+                };
+            }
+
+            $('#search-form').on('submit', function (e) {
+                e.preventDefault();
+                loadProducts(getFilters());
+            });
+
+            $(document).on('click', '.category-link', function (e) {
+                e.preventDefault();
+                $('.category-link').removeClass('active');
+                $(this).addClass('active');
+                loadProducts(getFilters());
+            });
+
+            $(document).on('click', '.champion-link', function (e) {
+                e.preventDefault();
+                $('.champion-link').removeClass('active');
+                $(this).addClass('active');
+                loadProducts(getFilters());
+            });
+
+            $('select[name="sort"]').on('change', function () {
+                loadProducts(getFilters());
+            });
+
+            $(document).on('click', '.page-link', function (e) {
+                e.preventDefault();
+                const params = getFilters();
+                params.page = $(this).data('page'); // tambahin page
+                loadProducts(params);
+            });
+
+            $(document).on('click', '.add-to-cart-btn', function () {
+                const productId = $(this).data('id');
+                fetch(`/add-to-cart-ajax/${productId}/`, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'ok') showToast(data.message);
+                    });
+            });
+
+            $(document).on('click', '.fav-btn', function () {
+                const btn = $(this);
+                const id = btn.data('id');
+                fetch(`/toggle-favourite/${id}/`, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+                }).then(() => {
+                    btn.toggleClass('active');
+                    btn.html(btn.hasClass('active') ? "♥ お気に入り" : "♡ お気に入り");
+                });
+            });
+
+            function showToast(msg) {
+                const toast = document.createElement('div');
+                toast.className = 'toast-msg';
+                toast.innerText = msg;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
+        });
+    </script>
+</body>
+
+</html>
