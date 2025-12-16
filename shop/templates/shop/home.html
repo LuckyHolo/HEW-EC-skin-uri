@@ -10,7 +10,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="../../../static/css/main.css">
+    <link rel="stylesheet" href="../static/css/main.css">
 </head>
 
 <body>
@@ -38,27 +38,21 @@
             {% endif %}
         </div>
     </header>
-
-    <div class="container">
-
         <div class="hero-title">
             <h1>SKIN URI</h1>
             <p class="tagline">買えないをどこでも</p>
         </div>
-
         <div class="shop-layout">
-
             <!-- サイドメニュー（一応） -->
-            <aside class="cyber-sidebar">
+            <div class="cyber-sidebar">
                 <form id="search-form" method="get" action="{% url 'shop' %}">
                     <input type="text" name="q" placeholder="Search skin..." value="{{ query }}">
 
                     <select name="category">
-                        <option value="">All Categories</option>
-                        {% for cat in categories %}
-                        <option value="{{ cat.id }}" {% if cat.id|stringformat:"s"==category_id %}selected{% endif %}>{{
-                            cat.name }}</option>
-                        {% endfor %}
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}" {% if cat.id|stringformat:"s" == category_id %}selected{% endif %}>{{ cat.name }}</option>
+                    {% endfor %}
                     </select>
 
                     <div class="price-range">
@@ -67,12 +61,10 @@
                     </div>
 
                     <select name="sort">
-                        <option value="">Default Sort</option>
-                        <option value="price_asc" {% if sort=="price_asc" %}selected{% endif %}>Price: Low to High
-                        </option>
-                        <option value="price_desc" {% if sort=="price_desc" %}selected{% endif %}>Price: High to Low
-                        </option>
-                    </select>
+                    <option value="">Default Sort</option>
+                    <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Price: Low to High</option>
+                    <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Price: High to Low</option>
+                </select>
 
                     <button type="submit">SEARCH</button>
                 </form>
@@ -88,10 +80,10 @@
                         </ul>
                     </div>
                 </div>
-            </aside>
-
+            </div>
+            <div class="product_list">
+                <h1>商品一覧</h1>
             <!-- ページネーション -->
-            <main>
                 <div id="products-container" class="products-grid">
                     {% include 'shop/products_list.html' %}
                 </div>
@@ -99,10 +91,8 @@
                 <div id="pagination-container" class="cyber-pagination">
                     {% include 'shop/pagination.html' %}
                 </div>
-            </main>
-
+            </div>
         </div>
-    </div>
 
     <script>
         $(document).ready(function () {
