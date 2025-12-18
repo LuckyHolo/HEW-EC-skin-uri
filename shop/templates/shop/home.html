@@ -1,43 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block title %}Shop{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skin Uri - 商品一覧</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;500;700;900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="../static/css/main.css">
-</head>
-
+{% block content %}
 <body>
-    <!-- HEADER -->
-    <header class="main-header">
-        <a href="{% url 'index' %}"><div class="header-title">
-            <h2>買えないをどこでも</h2>
-            <h1>Skin Uri</h1>
-        </a>
-        </div>
-        <div class="header-links">
-            {% if user.is_authenticated %}
-            <span class="welcome">ようこそ, <strong>{{ user.username }}</strong>!</span>
-            {% endif %}
-
-            <a href="{% url 'index' %}">Home</a>
-
-            {% if user.is_authenticated %}
-            <a href="{% url 'view_cart' %}">Cart</a>
-            <a href="{% url 'account' %}">Account</a>
-            <a href="{% url 'logout' %}">Logout</a>
-            {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'register' %}">Register</a>
-            {% endif %}
-        </div>
-    </header>
         <div class="hero-title">
             <h1>SKIN URI</h1>
             <p class="tagline">買えないをどこでも</p>
@@ -93,6 +58,7 @@
                 </div>
             </div>
         </div>
+        {% endblock %}
 
     <script>
         $(document).ready(function () {

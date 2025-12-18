@@ -25,6 +25,9 @@
         </a>
         </div>
         <div class="header-links">
+            {% if user.is_authenticated %}
+            <span class="welcome">ようこそ, <strong>{{ user.username }}</strong>!</span>
+            {% endif %}
             <a href="{% url 'index' %}">Home</a>
             <a href="{% url 'shop' %}">Shop</a>
 
