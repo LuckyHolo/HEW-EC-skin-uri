@@ -27,8 +27,6 @@
                          alt="{{ game.name }}">
                     <div class="game-name">{{ game.name }}</div>
                 </div>
-            {% empty %}
-                <p>ゲームまだ1個すら登録してないよ...</p>
             {% endfor %}
         </div>
     </div>
@@ -43,6 +41,7 @@
             <div class="conveyor-belt">
                 {% for product in random_skins %}
                 <div class="skin-item">
+                    <a href="{% url 'product_detail' product.id %}">
                     <img src="{% if product.image_name %}{{ MEDIA_URL }}{{ product.image_name }}{% else %}{% static 'images/no-skin.png' %}{% endif %}" 
                         alt="{{ product.skin_name|default:product.name }}">
                     <div class="skin-overlay">
@@ -50,6 +49,7 @@
                         <p class="name">{{ product.skin_name|default:product.name }}</p>
                         <p class="price">¥{{ product.price }}</p>
                     </div>
+                </a>
                 </div>
                 {% endfor %}
 

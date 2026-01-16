@@ -1,562 +1,155 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skin Uri - 商品一覧</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% extends 'base.html' %}
+{% block title %}Shop{% endblock %}
 
-    <style>
-        :root {
-            --primary: #00ffea;
-            --accent: #ff00aa;
-            --bg: #0a0a1a;
-            --card: rgba(20, 20, 40, 0.6);
-            --border: #00ffea33;
-            --text: #e0e0ff;
-            --text-muted: #a0a0cc;
-            --glow: 0 0 30px rgba(0, 255, 234, 0.5);
-            --glow-accent: 0 0 30px rgba(255, 0, 170, 0.5);
-            --danger: #ff3366;
-        }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 100%);
-            color: var(--text);
-            font-family: 'Orbitron', sans-serif;
-            min-height: 100vh;
-        }
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
-
-        /* HEADER */
-        .main-header {
-            background: rgba(10, 10, 26, 0.95);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            padding: 1.5rem 3rem 2.3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 30px rgba(0, 255, 234, 0.15);
-        }
-        .header-title h2 {
-            margin: 0; 
-            font-size: 0.9rem; 
-            color: var(--accent);
-            letter-spacing: 5px; 
-            text-shadow: var(--glow-accent);
-        }
-        .header-title h1 {
-            margin: 0; 
-            padding-top: 10px;
-            font-family: 'Press Start 2P', cursive; 
-            font-size: 2.2rem;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: var(--glow);
-        }
-        .header-links a {
-            color: var(--text-muted); 
-            margin-left: 2.5rem;
-            text-decoration: none; 
-            font-weight: 600; 
-            transition: 0.3s;
-        }
-        .header-links a:hover { 
-            color: var(--primary); 
-            text-shadow: var(--glow); 
-        }
-        .header-links .welcome {
-            color: var(--text);
-            font-weight: 700;
-            margin-right: 1rem;
-        }
-        .header-links .welcome strong {
-            color: var(--primary);
-            text-shadow: var(--glow);
-        }
-
-        /* Hero */
-        .hero-title h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 4.5rem;
-            text-align: center;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: var(--glow);
-            margin: 2rem 0 1rem;
-        }
-        .tagline {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 1.3rem;
-            letter-spacing: 4px;
-            margin-bottom: 3rem;
-        }
-
-        /* Layout */
-        .shop-layout {
-            display: grid;
-            grid-template-columns: 340px 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-
-        /* Sidebar */
-        .cyber-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            position: sticky;
-            top: 120px;
-        }
-        #search-form {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(12px);
-            display: flex;
-            flex-direction: column;
-            gap: 1.3rem;
-        }
-        #search-form input,
-        #search-form select {
-            width: 100%;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1rem 1.2rem;
-            color: var(--text);
-            font-size: 1rem;
-        }
-        #search-form input::placeholder { color: var(--text-muted); }
-        #search-form input:focus,
-        #search-form select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: var(--glow);
-        }
-        .price-range {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        #search-form button {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            color: #000;
-            border: none;
-            border-radius: 12px;
-            padding: 1.1rem;
-            font-family: 'Press Start 2P';
-            font-size: 1.1rem;
-            cursor: pointer;
-            box-shadow: var(--glow);
-            margin-top: 0.5rem;
-        }
-        #search-form button:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 40px rgba(0,255,234,0.6);
-        }
-
-        /* cat box */
-        .category-box {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 1.8rem;
-            backdrop-filter: blur(10px);
-        }
-        .category-box h3 {
-            color: var(--primary);
-            text-shadow: var(--glow);
-            margin-bottom: 1.2rem;
-            font-size: 1.3rem;
-        }
-        .category-box ul { list-style: none; padding: 0; margin: 0; }
-        .category-box li a {
-            display: block;
-            padding: 0.9rem 1.2rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            border-radius: 10px;
-            transition: 0.3s;
-            font-weight: 500;
-        }
-        .category-box li a:hover,
-        .category-box li a.active {
-            background: rgba(0,255,234,0.15);
-            color: var(--primary);
-            text-shadow: var(--glow);
-            padding-left: 1.8rem;
-            transform: translateX(8px);
-        }
-
-        .champion-list {
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 5px;
-
-            /* Scrollbar custom */
-            scrollbar-width: thin;          /* Firefox */
-            scrollbar-color: var(--primary) rgba(20,20,40,0.3); /* Firefox */
-        }
-
-        /* Chrome, Edge, Safari */
-        .champion-list::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .champion-list::-webkit-scrollbar-track {
-            background: rgba(20,20,40,0.3);
-            border-radius: 10px;
-        }
-
-        .champion-list::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-            box-shadow: 0 0 5px var(--glow);
-        }
-
-        .champion-list::-webkit-scrollbar-thumb:hover {
-            background: var(--accent);
-            box-shadow: 0 0 8px var(--glow-accent);
-        }
-
-        /* grid buat produk */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.2rem;
-        }
-        .skin-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            overflow: hidden;
-            transition: all 0.5s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            position: relative;
-        }
-        .skin-card:hover {
-            transform: translateY(-20px);
-            box-shadow: var(--glow), 0 30px 70px rgba(0,255,234,0.3);
-        }
-        .skin-image {
-            height: 320px;
-            overflow: hidden;
-            background: #000;
-        }
-        .skin-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: center;
-            transition: transform 8s ease;
-        }
-        .skin-card:hover img { transform: scale(1.15); }
-        .skin-info {
-            padding: 1.8rem 1.5rem;
-            text-align: center;
-        }
-        .champion {
-            color: var(--primary);
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0 0 0.4rem;
-        }
-        .skin-name {
-            color: var(--accent);
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin: 0.4rem 0 0.8rem;
-        }
-        .price {
-            font-family: 'Press Start 2P';
-            font-size: 2rem;
-            color: var(--primary);
-            text-shadow: var(--glow);
-            margin: 1rem 0 1.5rem;
-        }
-        .skin-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 0.9rem;
-        }
-        .detail-btn, .add-to-cart-btn {
-            padding: 1rem;
-            border-radius: 12px;
-            font-family: 'Press Start 2P';
-            font-size: 0.95rem;
-            text-align: center;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.4s;
-        }
-        .detail-btn {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-        .detail-btn:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: var(--glow);
-        }
-        .add-to-cart-btn {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            color: #000;
-            border: none;
-            box-shadow: 0 8px 25px rgba(0,255,234,0.5);
-        }
-        .add-to-cart-btn:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px rgba(0,255,234,0.8);
-            cursor: pointer;
-        }
-        .login-to-buy {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            text-decoration: underline;
-        }
-
-        /* PAGINATION */
-        .cyber-pagination {
-            text-align: center;
-            margin: 4rem 0 2rem;
-        }
-        .cyber-pagination .page-link {
-            background: var(--card);
-            color: var(--text);
-            border: 1px solid var(--border);
-            padding: 1rem 2.2rem;
-            margin: 0 1rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-family: 'Orbitron';
-            font-weight: 600;
-            transition: 0.4s;
-        }
-        .cyber-pagination .page-link:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: var(--glow);
-            transform: translateY(-6px);
-        }
-        .current-page {
-            font-family: 'Press Start 2P';
-            font-size: 1.3rem;
-            color: var(--accent);
-            text-shadow: var(--glow-accent);
-        }
-
-        /* TOAST */
-        .toast-msg {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            color: #000;
-            padding: 1rem 2rem;
-            border-radius: 16px;
-            font-weight: bold;
-            box-shadow: var(--glow);
-            z-index: 9999;
-            animation: slideIn 0.5s, slideOut 0.5s 2.5s forwards;
-        }
-        @keyframes slideIn { from { transform: translateX(400px); } to { transform: translateX(0); } }
-        @keyframes slideOut { to { transform: translateX(400px); opacity: 0; } }
-
-        @media (max-width: 992px) {
-            .shop-layout { grid-template-columns: 1fr; }
-            .hero-title h1 { font-size: 3.5rem; }
-            .cyber-sidebar { position: static; }
-        }
-    </style>
-</head>
+{% block content %}
 <body>
-    <!-- HEADER -->
-<header class="main-header">
-    <div class="header-title">
-        <h2>買えないをどこでも</h2>
-        <h1>Skin Uri</h1>
-    </div>
-    <div class="header-links">
-        {% if user.is_authenticated %}
-            <span class="welcome">ようこそ, <strong>{{ user.username }}</strong>!</span>
-        {% endif %}
-        
-        <a href="{% url 'index' %}">Home</a>
-        
-        {% if user.is_authenticated %}
-            <a href="{% url 'view_cart' %}">Cart</a>
-            <a href="{% url 'account' %}">Account</a>
-            <a href="{% url 'logout' %}">Logout</a>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'register' %}">Register</a>
-        {% endif %}
-    </div>
-</header>
+        <div class="hero-title">
+            <h1>SKIN URI</h1>
+            <p class="tagline">買えないをどこでも</p>
+        </div>
+        <div class="shop-layout">
+            <!-- サイドメニュー（一応） -->
+            <div class="cyber-sidebar">
+                <form id="search-form" method="get" action="{% url 'shop' %}">
+                    <input type="text" name="q" placeholder="Search skin..." value="{{ query }}">
 
-<div class="container">
-
-    <div class="hero-title">
-        <h1>SKIN URI</h1>
-        <p class="tagline">買えないをどこでも</p>
-    </div>
-
-    <div class="shop-layout">
-
-        <!-- サイドメニュー（一応） -->
-        <aside class="cyber-sidebar">
-            <form id="search-form" method="get" action="{% url 'shop' %}">
-                <input type="text" name="q" placeholder="Search skin..." value="{{ query }}">
-
-                <select name="category">
+                    <select name="category">
                     <option value="">All Categories</option>
                     {% for cat in categories %}
                         <option value="{{ cat.id }}" {% if cat.id|stringformat:"s" == category_id %}selected{% endif %}>{{ cat.name }}</option>
                     {% endfor %}
-                </select>
+                    </select>
 
-                <div class="price-range">
-                    <input type="number" name="min_price" placeholder="Min ¥" value="{{ request.GET.min_price }}">
-                    <input type="number" name="max_price" placeholder="Max ¥" value="{{ request.GET.max_price }}">
-                </div>
+                    <div class="price-range">
+                        <input type="number" name="min_price" placeholder="Min ¥" value="{{ request.GET.min_price }}">
+                        <input type="number" name="max_price" placeholder="Max ¥" value="{{ request.GET.max_price }}">
+                    </div>
 
-                <select name="sort">
+                    <select name="sort">
                     <option value="">Default Sort</option>
                     <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Price: Low to High</option>
                     <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Price: High to Low</option>
                 </select>
 
-                <button type="submit">SEARCH</button>
-            </form>
+                    <button type="submit">SEARCH</button>
+                </form>
 
-            <div class="category-box">
-                <h3>CHAMPIONS</h3>
-                <div class="champion-list">
-                    <ul>
-                        <li><a href="#" class="champion-link active" data-champion="">All Champions</a></li>
-                        {% for champ in champions %}
+                <div class="category-box">
+                    <h3>CHAMPIONS</h3>
+                    <div class="champion-list">
+                        <ul>
+                            <li><a href="#" class="champion-link active" data-champion="">All Champions</a></li>
+                            {% for champ in champions %}
                             <li><a href="#" class="champion-link" data-champion="{{ champ }}">{{ champ }}</a></li>
-                        {% endfor %}
-                    </ul>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </aside>
+            <div class="product_list">
+                <h1>商品一覧</h1>
+            <!-- ページネーション -->
+                <div id="products-container" class="products-grid">
+                    {% include 'shop/products_list.html' %}
+                </div>
 
-        <!-- ページネーション -->
-        <main>
-            <div id="products-container" class="products-grid">
-                {% include 'shop/products_list.html' %}
+                <div id="pagination-container" class="cyber-pagination">
+                    {% include 'shop/pagination.html' %}
+                </div>
             </div>
+        </div>
+        {% endblock %}
 
-            <div id="pagination-container" class="cyber-pagination">
-                {% include 'shop/pagination.html' %}
-            </div>
-        </main>
+    <script>
+        $(document).ready(function () {
 
-    </div>
-</div>
-
-<script>
-$(document).ready(function() {
-
-    function loadProducts(params) {
-        $.ajax({
-            url: "{% url 'shop' %}",
-            data: params,
-            headers: { 'X-Requested-With': 'XMLHttpRequest' },
-            success: function(response) {
-                $('#products-container').html(response.html);
-                $('#pagination-container').html(response.pagination);
+            function loadProducts(params) {
+                $.ajax({
+                    url: "{% url 'shop' %}",
+                    data: params,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    success: function (response) {
+                        $('#products-container').html(response.html);
+                        $('#pagination-container').html(response.pagination);
+                    }
+                });
             }
+
+            function getFilters() {
+                return {
+                    q: $('input[name="q"]').val(),
+                    category: $('select[name="category"]').val(),
+                    champion: $('.champion-link.active').data('champion'),
+                    min_price: $('input[name="min_price"]').val(),
+                    max_price: $('input[name="max_price"]').val(),
+                    sort: $('select[name="sort"]').val()
+                };
+            }
+
+            $('#search-form').on('submit', function (e) {
+                e.preventDefault();
+                loadProducts(getFilters());
+            });
+
+            $(document).on('click', '.category-link', function (e) {
+                e.preventDefault();
+                $('.category-link').removeClass('active');
+                $(this).addClass('active');
+                loadProducts(getFilters());
+            });
+
+            $(document).on('click', '.champion-link', function (e) {
+                e.preventDefault();
+                $('.champion-link').removeClass('active');
+                $(this).addClass('active');
+                loadProducts(getFilters());
+            });
+
+            $('select[name="sort"]').on('change', function () {
+                loadProducts(getFilters());
+            });
+
+            $(document).on('click', '.page-link', function (e) {
+                e.preventDefault();
+                const params = getFilters();
+                params.page = $(this).data('page'); // tambahin page
+                loadProducts(params);
+            });
+
+            $(document).on('click', '.add-to-cart-btn', function () {
+                const productId = $(this).data('id');
+                fetch(`/add-to-cart-ajax/${productId}/`, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'ok') showToast(data.message);
+                    });
+            });
+
+            $(document).on('click', '.fav-btn', function () {
+                const btn = $(this);
+                const id = btn.data('id');
+                fetch(`/toggle-favourite/${id}/`, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+                }).then(() => {
+                    btn.toggleClass('active');
+                    btn.html(btn.hasClass('active') ? "♥ お気に入り" : "♡ お気に入り");
+                });
+            });
+
+            function showToast(msg) {
+                const toast = document.createElement('div');
+                toast.className = 'toast-msg';
+                toast.innerText = msg;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
         });
-    }
-
-    function getFilters() {
-        return {
-            q: $('input[name="q"]').val(),
-            category: $('select[name="category"]').val(),
-            champion: $('.champion-link.active').data('champion'),
-            min_price: $('input[name="min_price"]').val(),
-            max_price: $('input[name="max_price"]').val(),
-            sort: $('select[name="sort"]').val()
-        };
-    }
-
-    $('#search-form').on('submit', function(e){
-        e.preventDefault();
-        loadProducts(getFilters());
-    });
-
-    $(document).on('click', '.category-link', function(e){
-        e.preventDefault();
-        $('.category-link').removeClass('active');
-        $(this).addClass('active');
-        loadProducts(getFilters());
-    });
-
-    $(document).on('click', '.champion-link', function(e){
-        e.preventDefault();
-        $('.champion-link').removeClass('active');
-        $(this).addClass('active');
-        loadProducts(getFilters());
-    });
-
-    $('select[name="sort"]').on('change', function(){
-        loadProducts(getFilters());
-    });
-
-    $(document).on('click', '.page-link', function(e){
-        e.preventDefault();
-        const params = getFilters();
-        params.page = $(this).data('page'); // tambahin page
-        loadProducts(params);
-    });
-
-    $(document).on('click', '.add-to-cart-btn', function(){
-        const productId = $(this).data('id');
-        fetch(`/add-to-cart-ajax/${productId}/`, {
-            method: 'POST',
-            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.status === 'ok') showToast(data.message);
-        });
-    });
-
-    $(document).on('click', '.fav-btn', function(){
-        const btn = $(this);
-        const id = btn.data('id');
-        fetch(`/toggle-favourite/${id}/`, {
-            method: 'POST',
-            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
-        }).then(() => {
-            btn.toggleClass('active');
-            btn.html(btn.hasClass('active') ? "♥ お気に入り" : "♡ お気に入り");
-        });
-    });
-
-    function showToast(msg){
-        const toast = document.createElement('div');
-        toast.className = 'toast-msg';
-        toast.innerText = msg;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-
-});
-</script>
+    </script>
 </body>
+
 </html>
