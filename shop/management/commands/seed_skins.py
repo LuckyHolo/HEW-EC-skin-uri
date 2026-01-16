@@ -2,7 +2,6 @@ import os
 import json
 import math
 import random
-from decimal import Decimal
 from pathlib import Path
 from django.core.management.base import BaseCommand
 from django.db import transaction
@@ -13,10 +12,10 @@ from shop.models import Product, Category, Game
 BASE_SKINS_DIR = Path(settings.MEDIA_ROOT) / "skins"  
 
 TIER_PRICES = {
-    "Normal": Decimal("1000"),
-    "Epic": Decimal("1500"),
-    "Legendary": Decimal("2000"),
-    "Ultimate": Decimal("3500"),
+    "Normal": 1000,
+    "Epic": 1500,
+    "Legendary": 2000,
+    "Ultimate": 3500,
 }
 TIERS = list(TIER_PRICES.keys())
 
@@ -61,7 +60,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        lol_game = Game.objects.get(name="League of Legends")
+        lol_game, _ = Game.objects.get_or_create(name="League of Legends")
         skins_dir = Path(options["dir"])
         bulk_size = options["bulk_size"]
         force = options["force"]
@@ -80,6 +79,29 @@ class Command(BaseCommand):
             except Exception as e:
                 self.stderr.write(self.style.WARNING(f"release_dates.json error: {e}"))
 
+        champions_ja_path = skins_dir / "champions_ja.json"
+        champion_ja_map = {}
+
+        if champions_ja_path.exists():
+            try:
+                with open(champions_ja_path, "r", encoding="utf-8") as f:
+                    champion_ja_map = json.load(f)
+                self.stdout.write(self.style.NOTICE("Loaded champions_ja.json"))
+            except Exception as e:
+                self.stderr.write(self.style.WARNING(f"champions_ja.json error: {e}"))
+
+        skins_ja_path = skins_dir / "skins_ja.json"
+        skin_ja_map = {}
+
+        if skins_ja_path.exists():
+            try:
+                with open(skins_ja_path, "r", encoding="utf-8") as f:
+                    skin_ja_map = json.load(f)
+                self.stdout.write(self.style.NOTICE("Loaded skins_ja.json"))
+            except Exception as e:
+                self.stderr.write(self.style.WARNING(f"skins_ja.json error: {e}"))
+
+
         category_skin, _ = Category.objects.get_or_create(name="Skin")
 
         to_create = []
@@ -89,6 +111,11 @@ class Command(BaseCommand):
         for champion_folder in sorted(p for p in skins_dir.iterdir() if p.is_dir()):
             champion_folder_name = champion_folder.name 
             champion_readable = " ".join([w.capitalize() for w in champion_folder_name.split("_")])
+            champion_name_ja = champion_ja_map.get(
+                champion_readable,
+                champion_readable
+            )
+
 
             for filename in sorted(os.listdir(champion_folder)):
                 if filename.startswith("."):
@@ -97,10 +124,18 @@ class Command(BaseCommand):
                     continue
 
                 skin_name, image_name = filename_to_skin_and_image(champion_folder_name, filename)
+                skin_key = f"{champion_readable}|{skin_name}"
+
+                skin_name_ja = skin_ja_map.get(
+                    skin_key,
+                    skin_name 
+                )
+
 
                 # 複数対策
                 exists = Product.objects.filter(image_name=image_name).exists() or Product.objects.filter(
-                    champion_name__iexact=champion_readable, skin_name__iexact=skin_name
+                    champion_name__iexact=champion_name_ja, 
+                    skin_name__iexact=skin_name_ja
                 ).exists()
 
                 if exists and not force:
@@ -118,9 +153,10 @@ class Command(BaseCommand):
                     release_date = release_map[image_name]
 
                 product_kwargs = dict(
-                    champion_name=champion_readable,
-                    skin_name=skin_name,
-                    description=f"{champion_readable} – {skin_name} skin",
+                    champion_name=champion_name_ja,
+                    skin_name=skin_name_ja,
+                    description=f"{champion_name_ja} – {skin_name_ja} のスキン",
+                    name=f"{champion_name_ja} – {skin_name_ja}",
                     price=price,
                     game=lol_game,
                     category=category_skin,

@@ -17,4 +17,6 @@ urlpatterns = [
     path('account/', views.account, name='account'),
     path('toggle-favourite/<int:product_id>/', views.toggle_favourite, name='toggle_favourite'),
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
+    path('create-payment-intent/', views.create_payment_intent, name='create_payment_intent'),
+    path('stripe/webhook/', views.stripe_webhook, name='stripe_webhook'),
 ]

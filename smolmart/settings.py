@@ -11,6 +11,16 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+import stripe
+
+load_dotenv()
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+
+stripe.api_key = STRIPE_SECRET_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -113,6 +123,19 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'skinuriproject@gmail.com' 
+EMAIL_HOST_PASSWORD = 'smve qccc vjyc utqe'  
+DEFAULT_FROM_EMAIL = 'SkinURI Shop <skinuriproject@gmail.com>'
+
+# Developer settings
+DEVELOPER_MODE = True
+DEVELOPER_EMAIL = 'skinuriproject@gmail.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

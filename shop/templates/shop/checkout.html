@@ -26,15 +26,90 @@
         </div>
 
         {% if cart_items %}
-        <form method="post" class="checkout-form">
+        <form id="payment-form" class="checkout-form">
             {% csrf_token %}
-            <button type="submit" class="pay-btn">PLACE ORDER</button>
+            <div id="card-element"><!-- Stripe card input akan muncul di sini --></div><br>
+            <button id="submit-btn" class="pay-btn">PAY NOW</button><br>
+            <div id="card-errors" role="alert"></div>
         </form>
         {% endif %}
 
-        <a href="{% url 'view_cart' %}" class="back-link">
-            ← Back to Cart
-        </a>
+        <a href="{% url 'view_cart' %}" class="back-link">← Back to Cart</a>
     </div>
 </div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');
+    const elements = stripe.elements();
+    const style = {
+        base: {
+            color: '#ffffff',            
+            fontFamily: '"Yu Gothic", sans-serif',
+            fontSize: '16px',
+            '::placeholder': { color: '#bbbbbb' },
+            padding: '14px 16px',
+        },
+        invalid: {
+            color: '#ff4d4f',
+            iconColor: '#ff4d4f'
+        }
+    };
+
+    const card = elements.create('card', { 
+        style: style,
+        hidePostalCode: true 
+    });
+    card.mount('#card-element');
+
+    const cardContainer = document.getElementById('card-element');
+    cardContainer.style.border = '1px solid #555';
+    cardContainer.style.borderRadius = '12px';
+    cardContainer.style.boxShadow = '0 2px 6px rgba(0,0,0,0.25)';
+    cardContainer.style.padding = '4px';
+    cardContainer.style.backgroundColor = '#2c2c2c';
+    cardContainer.style.transition = 'all 0.2s ease';
+
+    cardContainer.addEventListener('mouseenter', () => {
+        cardContainer.style.boxShadow = '0 4px 12px rgba(0,0,0,0.35)';
+    });
+    cardContainer.addEventListener('mouseleave', () => {
+        cardContainer.style.boxShadow = '0 2px 6px rgba(0,0,0,0.25)';
+    });
+
+    card.on('focus', () => { cardContainer.style.borderColor = '#1e90ff'; });
+    card.on('blur', () => { cardContainer.style.borderColor = '#555'; });
+
+    // ---------------------------------------------------------------------
+
+    const form = document.getElementById('payment-form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.disabled = true;
+
+        const res = await fetch("{% url 'create_payment_intent' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}',
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await res.json();
+        const clientSecret = data.clientSecret;
+
+        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: { card: card }
+        });
+
+        if (error) {
+            document.getElementById('card-errors').textContent = error.message;
+            submitBtn.disabled = false;
+        } else if (paymentIntent.status === 'succeeded') {
+            // redirect ke success page
+            window.location.href = "{% url 'purchase_success' %}";
+        }
+    });
+</script>
 {% endblock %}

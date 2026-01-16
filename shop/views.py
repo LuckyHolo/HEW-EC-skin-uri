@@ -1,15 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db import transaction
 from django.db.models import Q, F
 from .models import Product, Category, CartItem, Order, OrderItem, Favourite, Game
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import EmailMessage
+import json
 import random
+import stripe
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def landing_page(request):
     games = Game.objects.all()
@@ -63,7 +70,7 @@ def home(request):
     elif sort_by == 'price_desc':
         products = products.order_by('-price')
 
-    paginator = Paginator(products, 24)
+    paginator = Paginator(products, 9)
     page_obj = paginator.get_page(page_number)
 
     if request.user.is_authenticated:
@@ -179,33 +186,13 @@ def checkout(request):
     cart_items = CartItem.objects.filter(user=request.user)
     total = sum(item.subtotal() for item in cart_items)
 
-    if request.method == "POST":
-        if not cart_items.exists():
-            messages.error(request, "Your cart is empty.")
-            return redirect("view_cart")
-
-        order = Order.objects.create(user=request.user, total=total)
-
-        for item in cart_items:
-            OrderItem.objects.create(
-                order=order,
-                product=item.product,
-                quantity=item.quantity,
-                price=item.product.price,
-            )
-
-            # item.product.stock -= item.quantity
-            # item.product.save()
-
-        cart_items.delete()
-
-        messages.success(request, "Order placed successfully!")
-        return redirect("purchase_success")
-
-    return render(request, "shop/checkout.html", {
+    context = {
         "cart_items": cart_items,
         "total": total,
-    })
+        "STRIPE_PUBLISHABLE_KEY": settings.STRIPE_PUBLISHABLE_KEY, 
+    }
+
+    return render(request, "shop/checkout.html", context)
 
 @login_required
 def purchase_success(request):
@@ -253,5 +240,94 @@ def product_detail(request, product_id):
         'is_favourited': is_favourited
     }
     return render(request, 'shop/item_detail.html', context)
+
+@login_required
+def create_payment_intent(request):
+    cart_items = CartItem.objects.filter(user=request.user)
+    total = sum(item.subtotal() for item in cart_items) 
+    if total == 0:
+        return JsonResponse({'error': 'Cart is empty'}, status=400)
+
+    intent = stripe.PaymentIntent.create(
+        amount=int(total), 
+        currency='jpy',
+        automatic_payment_methods={'enabled': True},
+        metadata={
+            "user_id": request.user.id
+        }
+    )
+
+    return JsonResponse({
+        'clientSecret': intent.client_secret
+    })
+
+def send_order_confirmation_email(user, order):
+    subject = f"Order Confirmation - #{order.user_order_number}"
+    html_message = render_to_string('shop/email/order_confirmation.html', {
+        'user': user,
+        'order': order
+    })
+
+    # Tentuin penerima berdasarkan developer mode
+    if getattr(settings, 'DEVELOPER_MODE', False):
+        recipient = [getattr(settings, 'DEVELOPER_EMAIL')]
+    else:
+        recipient = [user.email]
+
+    email = EmailMessage(
+        subject,
+        html_message,
+        settings.DEFAULT_FROM_EMAIL,
+        recipient,
+    )
+    email.content_subtype = "html"
+    email.send(fail_silently=False)
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except (ValueError, stripe.error.SignatureVerificationError):
+        return HttpResponse(status=400)
+
+    if event['type'] == 'payment_intent.succeeded':
+        payment_intent = event['data']['object']
+        user_id = payment_intent['metadata'].get('user_id')
+        if not user_id:
+            return HttpResponse(status=400)
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return HttpResponse(status=400)
+
+        cart_items = CartItem.objects.filter(user=user)
+        if not cart_items.exists():
+            return HttpResponse(status=200)
+
+        total = sum(item.subtotal() for item in cart_items)
+
+        with transaction.atomic():
+            order = Order.objects.create(user=user, total=total)
+            for item in cart_items:
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    quantity=item.quantity,
+                    price=item.product.price
+                )
+            cart_items.delete()
+
+            send_order_confirmation_email(user, order)
+
+    return HttpResponse(status=200)
+
 
 # Create your views here.
