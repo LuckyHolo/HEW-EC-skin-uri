@@ -39,7 +39,7 @@ def home(request):
     sort_by = request.GET.get('sort', '')
     page_number = request.GET.get('page', 1)
 
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('id')
     categories = Category.objects.all()
 
     champions = Product.objects.values_list('champion_name', flat=True).distinct().order_by('champion_name')
