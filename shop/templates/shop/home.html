@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Shop{% endblock %}
 
 {% block content %}
-<body>
         <div class="hero-title">
             <h1>SKIN URI</h1>
             <p class="tagline">買えないをどこでも</p>
@@ -58,7 +58,6 @@
                 </div>
             </div>
         </div>
-        {% endblock %}
 
     <script>
         $(document).ready(function () {
@@ -150,6 +149,6 @@
 
         });
     </script>
-</body>
+{% endblock %}
 
 </html>

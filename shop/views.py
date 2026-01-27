@@ -70,7 +70,7 @@ def home(request):
     elif sort_by == 'price_desc':
         products = products.order_by('-price')
 
-    paginator = Paginator(products, 9)
+    paginator = Paginator(products, 25)
     page_obj = paginator.get_page(page_number)
 
     if request.user.is_authenticated:
