@@ -8,6 +8,7 @@
             <p class="tagline">買えないをどこでも</p>
         </div>
         <div class="shop-layout">
+            <form style="display: none;">{% csrf_token %}</form>
             <!-- サイドメニュー（一応） -->
             <div class="cyber-sidebar">
                 <form id="search-form" method="get" action="{% url 'shop' %}">
@@ -60,6 +61,16 @@
         </div>
 
     <script>
+        function getCSRFToken() {
+            return document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+        }
+
+        function showToast(msg) {
+             const toast = $("<div class='toast-global'>" + msg + "</div>");
+              $("body").append(toast); setTimeout(() => toast.addClass("show"), 100);
+               setTimeout(() => toast.remove(), 3200);
+             }
+
         $(document).ready(function () {
 
             function loadProducts(params) {
@@ -119,13 +130,14 @@
                 const productId = $(this).data('id');
                 fetch(`/add-to-cart-ajax/${productId}/`, {
                     method: 'POST',
-                    headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+                    headers: {'X-CSRFToken': getCSRFToken()}
                 })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === 'ok') showToast(data.message);
-                    });
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'ok') showToast(data.message);
+                });
             });
+
 
             $(document).on('click', '.fav-btn', function () {
                 const btn = $(this);
@@ -138,14 +150,6 @@
                     btn.html(btn.hasClass('active') ? "♥ お気に入り" : "♡ お気に入り");
                 });
             });
-
-            function showToast(msg) {
-                const toast = document.createElement('div');
-                toast.className = 'toast-msg';
-                toast.innerText = msg;
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
-            }
 
         });
     </script>
