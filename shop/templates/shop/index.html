@@ -58,7 +58,7 @@
                         alt="{{ product.skin_name|default:product.name }}">
                     <div class="skin-overlay">
                         <p class="champ">{{ product.champion_name }}</p>
-                        <p class="name">{{ product.skin_name|default:product.name }}</p>
+                        <p class="name">{{ product.name|default:product.name }}</p>
                         <p class="price">¥{{ product.price }}</p>
                     </div>
                 </a>
