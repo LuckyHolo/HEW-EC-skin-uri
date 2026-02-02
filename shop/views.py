@@ -20,7 +20,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def landing_page(request):
     games = Game.objects.all()
-    random_skins = list(Product.objects.all())
+    random_skins = list(Product.objects.all().filter(price__gte=1))
     random.shuffle(random_skins)
     random_skins = random_skins[:20]
 
@@ -39,7 +39,7 @@ def home(request):
     sort_by = request.GET.get('sort', '')
     page_number = request.GET.get('page', 1)
 
-    products = Product.objects.all()
+    products = Product.objects.all().filter(price__gte=1)
     categories = Category.objects.all()
 
     champions = Product.objects.values_list('champion_name', flat=True).distinct().order_by('champion_name')

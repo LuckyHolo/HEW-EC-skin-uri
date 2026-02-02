@@ -21,7 +21,6 @@ class Product(models.Model):
 
     name = models.CharField(max_length=200, blank=True)
 
-    description = models.TextField()
     price = models.IntegerField()
 
     game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True, blank=True)
@@ -35,6 +34,7 @@ class Product(models.Model):
     release_date = models.DateField(null=True, blank=True)
 
     lore = models.TextField(blank=True, null=True) 
+    name_en = models.CharField(max_length=200, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.name:

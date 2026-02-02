@@ -21,6 +21,10 @@
     box-sizing: border-box;
 }
 
+html{
+    overflow-y: scroll;
+}
+
 body {
     background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 100%);
     color: var(--text);
@@ -44,6 +48,7 @@ header,footer,main,p,a,h1,h2,div,img {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0 auto;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -52,7 +57,7 @@ header,footer,main,p,a,h1,h2,div,img {
 
 .header-title h2 {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 15px;
     color: var(--accent);
     letter-spacing: 5px;
     text-shadow: var(--glow-accent);
@@ -61,7 +66,7 @@ header,footer,main,p,a,h1,h2,div,img {
 .header-title h1 {
     margin: 0;
     font-family: 'Press Start 2P', cursive;
-    font-size: 2.2rem;
+    font-size: 35px;
     background: linear-gradient(90deg, var(--primary), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -392,18 +397,20 @@ header,footer,main,p,a,h1,h2,div,img {
     box-shadow: 0 0 8px var(--glow-accent);
 }
 
-.product_list{
+.product_list {
     padding-top: 100px;
 }
 
 /* grid buat produk */
 .products-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(5,1fr); /* ← 自動で5列になるように調整 */
+    gap: 40px;
+    justify-content: center;
 }
 
 .skin-card {
+    width: 100%;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 24px;
@@ -591,6 +598,12 @@ header,footer,main,p,a,h1,h2,div,img {
     }
 }
 
+.empty-products {
+    width: 100%;
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 24px;
+}
 
 
 /* ================== CART PAGE ================== */
