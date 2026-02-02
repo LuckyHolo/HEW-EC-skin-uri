@@ -19,7 +19,7 @@
             
             <div class="input-group">
                 <label>Username</label>
-                <input type="text" name="username" required placeholder="Enter your username">
+                <input type="text" name="username" required placeholder="Enter username">
                 <i class="fas fa-user icon"></i>
             </div>
 
@@ -35,8 +35,11 @@
         </form>
 
         <p class="auth-footer">
-            Don't have an account? 
-            <a href="{% url 'register' %}">Register here</a>
+            パスワードを忘れた方
+            <a href="{% url 'password_reset' %}" class="reset-link">こちら</a>
+            <br><br>
+            アカウントをお持ちでない方は 
+            <a href="{% url 'register' %}">こちら</a>
         </p>
     </div>
 </div>

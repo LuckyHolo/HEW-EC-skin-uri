@@ -74,7 +74,7 @@
                 headers: { "X-CSRFToken": "{{ csrf_token }}" }
             }).then(() => {
                 btn.toggleClass("active");
-                btn.html(btn.hasClass("active") ? "♥ Favourite" : "♡ Favourite");
+                btn.html(btn.hasClass("active") ? "♥ お気に入り" : "♡ お気に入り");
             });
         });
     </script>

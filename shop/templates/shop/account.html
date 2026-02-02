@@ -13,12 +13,42 @@
 
     <!-- タブ -->
     <div class="account-tabs">
+        <button class="tab-btn" data-target="account">Account</button>
         <button class="tab-btn active" data-target="orders">Orders</button>
         <button class="tab-btn" data-target="favourites">Favourites</button>
     </div>
 
     <!-- タブコンテンツ  -->
     <div class="tab-content">
+
+        <!-- アカウント情報 -->
+        <div class="tab-panel" id="account">
+            <div class="account-details">
+
+                <div class="detail-row">
+                    <span class="label">Username</span>
+                    <span class="value">{{ request.user.username }}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Email</span>
+                    <span class="value">{{ request.user.email }}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Registered</span>
+                    <span class="value">{{ request.user.date_joined }}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Password</span>
+                    <a href="{% url 'password_reset' %}" class="link-btn">
+                        Reset Password
+                    </a>
+                </div>
+
+            </div>
+        </div>
 
         <!-- 注文履歴 -->
         <div class="tab-panel show" id="orders">
@@ -40,7 +70,7 @@
                     {% endfor %}
                 </ul>
             {% else %}
-                <p class="empty">No orders yet.</p>
+                <p class="empty">ご注文はありません。</p>
             {% endif %}
         </div>
 
@@ -56,13 +86,13 @@
                             <div class="fav-info">
                                 <h3>{{ fav.name }}</h3>
                                 <p class="fav-price">¥{{ fav.price }}</p>
-                                <button class="fav-btn remove-fav-btn" data-id="{{ fav.id }}">♥ Remove</button>
+                                <button class="fav-btn remove-fav-btn" data-id="{{ fav.id }}">♥ 削除</button>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
             {% else %}
-                <p class="empty">No favourite items yet.</p>
+                <p class="empty">お気に入りがまだありません。</p>
             {% endif %}
         </div>
 

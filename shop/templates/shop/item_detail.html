@@ -12,13 +12,13 @@
     <div class="detail-info">
         <h1 class="champion-name">{{ product.champion_name }}</h1>
         <h2 class="skin-name">{{ product.skin_name }}</h2>
-        <div class="lore">{{ product.lore|linebreaks }}</div>
+        <div class="lore">{{ product.description|linebreaks }}</div>
         <div class="price">¥{{ product.price }}</div>
 
         <div class="buttons">
             {% if user.is_authenticated %}
                 <button class="add-to-cart" data-id="{{ product.id }}">ADD TO CART</button>
-                <button class="fav-btn {% if is_favourited %}active{% endif %}" data-id="{{ product.id }}">
+                <button class="fav-btn {% if is_favourited %}active{% endif %}" data-id="{{ product.id }}" style="margin: 0;">
                     {% if is_favourited %}♥{% else %}♡{% endif %} Favourite
                 </button>
             {% else %}

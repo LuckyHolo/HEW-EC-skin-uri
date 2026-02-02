@@ -4,8 +4,7 @@
 
 {% block content %}
         <div class="hero-title">
-            <h1>SKIN URI</h1>
-            <p class="tagline">買えないをどこでも</p>
+            <h1>商品一覧</h1>
         </div>
         <div class="shop-layout">
             <form style="display: none;">{% csrf_token %}</form>
@@ -35,20 +34,8 @@
                     <button type="submit">SEARCH</button>
                 </form>
 
-                <div class="category-box">
-                    <h3>CHAMPIONS</h3>
-                    <div class="champion-list">
-                        <ul>
-                            <li><a href="#" class="champion-link active" data-champion="">All Champions</a></li>
-                            {% for champ in champions %}
-                            <li><a href="#" class="champion-link" data-champion="{{ champ }}">{{ champ }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
             </div>
             <div class="product_list">
-                <h1>商品一覧</h1>
             <!-- ページネーション -->
                 <div id="products-container" class="products-grid">
                     {% include 'shop/products_list.html' %}
@@ -60,6 +47,35 @@
             </div>
         </div>
 
+        <div id="champ-drawer-trigger" class="champ-sticky-btn">
+            <i class="fas fa-users"></i>
+            <span>CHAMPIONS</span>
+        </div>
+
+        <div id="champ-drawer" class="cyber-drawer">
+            <div class="drawer-header">
+                <h3>CHAMPIONS</h3>
+                <button type="button" id="close-drawer">&times;</button>
+            </div>
+            
+            <div class="drawer-search">
+                <input type="text" id="inner-search" placeholder="Quick find...">
+            </div>
+
+            <div class="champion-list-drawer">
+                <ul id="drawer-ul">
+                    <li><a href="#" class="champion-link active" data-champion="">All Champions</a></li>
+                    {% for champ in champions %}
+                    <li><a href="#" class="champion-link" data-champion="{{ champ }}">{{ champ }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div id="drawer-overlay" class="drawer-overlay"></div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
     <script>
         function getCSRFToken() {
             return document.querySelector('[name=csrfmiddlewaretoken]')?.value;
@@ -72,6 +88,36 @@
              }
 
         $(document).ready(function () {
+
+            // Drawer Logic Functions
+            // 1. Buka Drawer
+            $('#champ-drawer-trigger').on('click', function() {
+                $('#champ-drawer').addClass('active');
+                $('#drawer-overlay').fadeIn();
+            });
+
+            // 2. Tutup Drawer
+            function closeDrawer() {
+                $('#champ-drawer').removeClass('active');
+                $('#drawer-overlay').fadeOut();
+            }
+            $('#close-drawer, #drawer-overlay').on('click', closeDrawer);
+
+            // 3. Mini Search Filter (Sangat membantu buat 170 items)
+            $('#inner-search').on('keyup', function() {
+                let val = $(this).val().toLowerCase();
+                $('#drawer-ul li').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1)
+                });
+            });
+
+            // 4. Otomatis tutup drawer setelah pilih champion (Optional)
+            $(document).on('click', '.champion-link', function() {
+                if ($(window).width() < 768) { // Cuma auto-close di mobile biar gak ribet
+                    closeDrawer();
+                }
+            });
+            // End
 
             function loadProducts(params) {
                 $.ajax({
@@ -122,7 +168,7 @@
             $(document).on('click', '.page-link', function (e) {
                 e.preventDefault();
                 const params = getFilters();
-                params.page = $(this).data('page'); // tambahin page
+                params.page = $(this).data('page'); 
                 loadProducts(params);
             });
 
@@ -135,19 +181,6 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'ok') showToast(data.message);
-                });
-            });
-
-
-            $(document).on('click', '.fav-btn', function () {
-                const btn = $(this);
-                const id = btn.data('id');
-                fetch(`/toggle-favourite/${id}/`, {
-                    method: 'POST',
-                    headers: { 'X-CSRFToken': '{{ csrf_token }}' }
-                }).then(() => {
-                    btn.toggleClass('active');
-                    btn.html(btn.hasClass('active') ? "♥ お気に入り" : "♡ お気に入り");
                 });
             });
 

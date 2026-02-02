@@ -17,20 +17,6 @@
     z-index: 10;
 }
 
-.fav-btn:hover {
-    background: var(--primary);
-    color: #000;
-    transform: translateY(-6px);
-    box-shadow: 0 10px 30px rgba(0, 255, 234, 0.6);
-}
-
-.fav-btn.active {
-    background: var(--accent);
-    color: #000;
-    border-color: var(--accent);
-    box-shadow: 0 0 35px rgba(255, 0, 170, 0.7);
-}
-
 .fav-btn.active:hover {
     background: var(--accent);
     color: #000;

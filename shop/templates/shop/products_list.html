@@ -1,20 +1,19 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/fav-btn.css' %}">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
 
 
 {% for p in products %}
 <div class="skin-card">
-    {% if user.is_authenticated %}
-    <button class="fav-btn {% if p.is_favourited %}active{% endif %}" data-id="{{ p.id }}">
-        {% if p.is_favourited %}♥{% else %}♡{% endif %} お気に入り
-    </button>
-    {% else %}
-    <!-- ログインしていない場合、隠す -->
-    <button class="fav-btn" style="display:none;" data-id="{{ p.id }}"></button>
-    {% endif %}
-
     <!-- Image -->
     <div class="skin-image">
+            {% if user.is_authenticated %}
+        <button class="fav-btn {% if p.is_favourited %}active{% endif %}" data-id="{{ p.id }}">
+            {% if p.is_favourited %}♥{% else %}♡{% endif %} お気に入り
+        </button>
+        {% else %}
+        <!-- ログインしていない場合、隠す -->
+        <button class="fav-btn" style="display:none;" data-id="{{ p.id }}"></button>
+        {% endif %}
         <img src="{{ MEDIA_URL }}{{ p.image_name }}" alt="{{ p.skin_name|default:p.name }}">
     </div>
 
