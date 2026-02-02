@@ -5,7 +5,6 @@
 
 {% block content %}
 
-<!-- へーロ -->
 <div class="landing-hero">
     <div class="container">
         <div class="hero-title">
@@ -23,9 +22,11 @@
         <div class="games-grid">
             {% for game in games %}
                 <div class="game-card">
+                    <a href="{% url 'shop' %}">
                     <img src="{% if game.image %}{{ game.image.url }}{% else %}{% static 'images/placeholder-game.jpg' %}{% endif %}" 
                          alt="{{ game.name }}">
                     <div class="game-name">{{ game.name }}</div>
+                    </a>
                 </div>
             {% endfor %}
         </div>

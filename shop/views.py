@@ -39,7 +39,11 @@ def home(request):
     sort_by = request.GET.get('sort', '')
     page_number = request.GET.get('page', 1)
 
+<<<<<<< HEAD
     products = Product.objects.all().filter(price__gte=1)
+=======
+    products = Product.objects.all().order_by('id')
+>>>>>>> 952543648570a41261c4b1cfa12558ba2b45c2e5
     categories = Category.objects.all()
 
     champions = Product.objects.values_list('champion_name', flat=True).distinct().order_by('champion_name')
@@ -70,7 +74,7 @@ def home(request):
     elif sort_by == 'price_desc':
         products = products.order_by('-price')
 
-    paginator = Paginator(products, 9)
+    paginator = Paginator(products, 25)
     page_obj = paginator.get_page(page_number)
 
     if request.user.is_authenticated:
