@@ -2206,3 +2206,9 @@ header,footer,main,p,a,h1,h2,div,img {
         justify-content: center;
     }
 }
+
+@media (max-width: 1000px) {
+    .main_header{
+        display: none;
+    }
+}
